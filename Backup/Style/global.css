@@ -1,0 +1,315 @@
+﻿body
+{
+    margin: 0px;
+    padding: 0px;
+    font-family: Tahoma, Arial;
+    font-size: 11px;
+}
+a
+{
+    text-decoration: none;
+    text-align: left;
+}
+p,h1,h2,h3,h4,h5,h6{text-align:left;padding-left:10px;}
+
+/* HEADINGS   
+----------------------------------------------------------*/
+#Header
+{
+    width: 100%;
+    text-decoration: none;
+}
+
+
+#topHR
+{
+    color: #008a5e;
+    background: #008a5e;
+    height: 8px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+#logoDiv
+{
+    height: 48px;
+    display: inline; /*margin: -12px auto;*/
+}
+#appName
+{
+    height: 48px;
+    vertical-align: bottom;
+    line-height: 48px;
+    font-size: 32px;
+    font-family: Arial,sans-serif;
+    font-weight: bold;
+    float: right;
+    margin-right: 15px;
+}
+
+/* Menu   
+----------------------------------------------------------*/
+#nav
+{
+    font: normal 16px Arial;
+    border: 1px solid #121314;
+    border-top: 1px solid #2b2e30;
+    overflow: hidden;
+    background: #005288;
+    height: 30px;
+    padding: 0 10px;
+}
+#nav .userInfo
+{
+    color: #FFF;
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    float: right;
+	height: 32px;
+	line-height: 32px;
+}
+#nav ul
+{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+#nav ul li
+{
+    float: left;
+    height: 30px;
+    line-height: 30px;
+}
+
+#nav ul li a {
+    background: none repeat scroll 0 0 #005288;
+    border-left: 1px solid #005288;
+    border-right: 1px solid #005288;
+    color: #FFFFFF;
+    float: left;
+    padding: 0 20px;
+    text-decoration: none;
+}
+
+#nav ul li a:hover, #nav ul li:hover > a
+{
+    background: #87CEEB;
+    color: Black;
+}
+
+#nav li ul a:hover, #nav ul li li:hover > a
+{
+    background: #87CEEB;
+    color: Black;
+    border-bottom: 1px solid #3C4042;
+    border-top: 1px solid #3C4042;
+}
+
+#nav li ul
+{
+    background: #005288;
+    -moz-border-radius: 0 0 10px 10px;
+    -webkit-border-radius: 0 0 10px 10px;
+    margin: 30px 0 0;
+    left: -999em;
+    position: absolute;
+    width: 160px;
+    z-index: 9999;
+    -moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.4) inset;
+    -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.4) inset;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    *margin-left:-90px
+}
+
+#nav li:hover ul
+{
+    left: auto;
+}
+
+#nav li ul a
+{
+    background: none;
+    border: 0 none;
+    margin-right: 0;
+    width: 120px;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+}
+
+#nav li li ul
+{
+    margin: -1px 0 0 160px;
+    -webkit-border-radius: 0 10px 10px 10px;
+    -moz-border-radius: 0 10px 10px 10px;
+    visibility: hidden;
+}
+
+#nav li li:hover ul
+{
+    visibility: visible;
+}
+
+#nav ul ul li:last-child > a
+{
+    -moz-border-radius: 0 0 10px 10px;
+    -webkit-border-radius: 0 0 10px 10px;
+}
+
+#nav ul ul ul li:first-child > a
+{
+    -moz-border-radius: 0 10px 0 0;
+    -webkit-border-radius: 0 10px 0 0;
+}
+
+/* Body   
+----------------------------------------------------------*/
+#ui-datepicker-div
+{
+    display: none;
+}
+.mainContainer
+{
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+    overflow: hidden;
+}
+.mainContainer table
+{
+    margin: auto;
+}
+
+.dataTable
+{
+    /*font-family:Verdana, Arial, Helvetica, sans-serif; */
+    font-weight: normal;
+    font-family: Tahoma;
+    border-collapse: collapse;
+    border: 1px solid #999999;
+    width: 100%;
+    font-size: 9pt;
+    text-align: center;
+    vertical-align: middle;
+    margin: 0;
+}
+.dataTable td
+{
+    border: 1px solid #999999;
+    padding: 0 5px;
+    color: #000000;
+    margin: 0;
+}
+.dataTable tr
+{
+    line-height: 20px;
+}
+
+.dataTable th
+{
+    border: 1px solid #999999;
+    padding: 0 5px 5px;
+    font-size: 8pt;
+    font-weight: bold;
+    font-family: Tahoma;
+    text-align: center;
+    /*color: #FFFFFF;*/
+    color:white;
+    vertical-align: middle;
+    margin: 0 2px 0 2px;
+    position: relative;
+    background-color: #507CD1;
+}
+.dataTable tr:first-child td
+{
+    border: 1px solid #999999;
+    padding: 0 5px 5px;
+    font-size: 8pt;
+    font-weight: bold;
+    font-family: Tahoma;
+    text-align: center;
+    color: #FFFFFF;
+    vertical-align: middle;
+    margin: 0 2px 0 2px;
+    position: relative;
+    background-color: #4f7fbd;
+}
+.dataTable a-hover
+{
+    text-decoration: underline;
+}
+.SubmitStyle
+{
+    width: 80px;
+    height: 30px;
+    text-align: center;
+    margin: 10px 5px;
+}
+.formtable
+{
+    width: 860px;
+}
+.formtable tr
+{
+    line-height: 20px;
+}
+.formtable .td1
+{
+    text-align: right;
+    padding: 5px 10px;
+    width: 30%;
+}
+.formtable .td2
+{
+    text-align: left;
+    padding: 5px 10px;
+    width: 70%;
+}
+.formtable td span
+{
+    font-style: italic;
+    padding-right: 8px;
+    vertical-align: middle;
+}
+label.error
+{
+    padding-left: 16px;
+    padding-bottom: 2px;
+    font-weight: bold;
+    color: #EA5200;
+}
+input.error
+{
+    border: 1px solid red;
+}
+
+label.checked
+{
+    background: url("../images/checked.gif") no-repeat 0px 0px;
+}
+
+.formtable textarea
+{
+    height: 60px;
+    width: 255px;
+}
+
+.formtable input[type=text]
+{
+    padding: 3px;
+    }
+.formtable select
+{
+    width: 260px;
+}
+.submitdelete
+{
+    width: 16px;
+    height: 16px;
+    background: url(../images/delete.png);
+    cursor: pointer;
+    border: none;
+}

@@ -1,0 +1,116 @@
+﻿html body {
+	font-family:Arial, Helvetica, sans-serif;
+	/*color:white;*/
+	/*background-color: #060606;*/
+    color:#060606;
+    background-color: white;
+}
+th{
+	font-size:30px;
+    text-align:center;
+    vertical-align:middle;
+}
+td{
+	
+    text-align:center;
+    vertical-align:middle;
+}
+.lineStyle {
+    font-size :20px;
+	/*font-Style: italic;*/
+    text-align:center;
+    vertical-align:middle;
+    font-weight:bold;
+}
+a {
+    color:white;
+}
+
+.content {
+    background-color: white;
+}
+.yellowCell
+{
+	background-color: #FFC300;
+	color: white;
+	font-family: "Times New Roman", Times, serif;
+	font-weight: bold;
+    text-align:center;
+}
+
+.rate_style {
+    font-size:20px;
+    text-align:center;
+font-weight:bold;
+}
+.err_des_sytle {
+    font-size:15px;
+    text-align:center;
+}
+.redCell
+{
+	background-color: #E74C3C;
+	color: white;
+	font-family: "Times New Roman", Times, serif;
+	font-weight: bold;
+    text-align:center;
+
+}
+
+.greenCell
+{
+	background-color: #2ECC71;
+	color: white;
+	font-family: "Times New Roman", Times, serif;
+	font-weight: bold;
+    text-align:center;
+
+}
+
+.grayCell
+{
+	background-color: #ADA8A8;
+	color: white;
+	font-family: "Times New Roman", Times, serif;
+	font-weight: bold;
+    text-align:center;
+    font-size:22px;
+}
+
+.comment {
+    background-color: #ADA8A8;
+	color: white;
+	font-size:14px;
+	font-style:italic;
+	font-family: "Times New Roman", Times, serif;
+	font-weight: bold;
+    text-align:left;
+}
+.loadingtime {
+    font-size:12px;
+	font-style:italic;
+	font-family: "Times New Roman", Times, serif;
+}
+.splitter {
+    background-color:white;
+    font-size:10px;
+    padding: 8px 1px 0px 1px;
+    margin:0px 0px -5px 0px;
+    text-align:center;
+}
+.footer {
+    background-color:#ADA8A8;
+    color: white;
+    font-size: 10px;
+    text-align:center;
+    vertical-align:middle;
+}
+.flagStyle {
+    display:none;
+}
+
+.commentlabel {
+    text-align:center;
+    vertical-align:middle;
+    font-size:10px;
+}

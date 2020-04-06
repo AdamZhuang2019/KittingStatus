@@ -1,0 +1,389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F3489DC3-EA6F-462F-97BA-2D53BFB7595D}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>kittingStatus.jabil.web</RootNamespace>
+    <AssemblyName>kittingStatus.jabil.web</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bootstrap-datetimepicker\bootstrap-datetimepicker.css" />
+    <Content Include="bootstrap-datetimepicker\bootstrap-datetimepicker.js" />
+    <Content Include="bootstrap-datetimepicker\bootstrap-datetimepicker.min.css" />
+    <Content Include="bootstrap-datetimepicker\bootstrap-datetimepicker.min.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.ar.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.az.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.bg.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.bn.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.ca.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.cs.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.da.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.de.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.ee.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.el.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.es.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.fi.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.fr.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.he.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.hr.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.hu.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.hy.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.id.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.is.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.it.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.ja.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.ka.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.ko.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.lt.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.lv.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.ms.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.nb.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.nl.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.no.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.pl.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.pt-BR.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.pt.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.ro.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.rs-latin.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.rs.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.ru.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.sk.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.sl.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.sv.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.sw.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.th.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.tr.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.ua.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.uk.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.zh-CN.js" />
+    <Content Include="bootstrap-datetimepicker\locales\bootstrap-datetimepicker.zh-TW.js" />
+    <Content Include="DB\db.accdb" />
+    <Content Include="Global.asax" />
+    <Content Include="images\add.png" />
+    <Content Include="images\back.png" />
+    <Content Include="images\buttonMore.gif" />
+    <Content Include="images\buttonPrev.gif" />
+    <Content Include="images\cancel.png" />
+    <Content Include="images\checked.gif" />
+    <Content Include="images\close.png" />
+    <Content Include="images\delete.png" />
+    <Content Include="images\dropdown_linkbg.gif" />
+    <Content Include="images\error.gif" />
+    <Content Include="images\find.png" />
+    <Content Include="images\forward.png" />
+    <Content Include="images\Icons-mini-icon_user.gif" />
+    <Content Include="images\jabil_log.jpg" />
+    <Content Include="images\loading.gif" />
+    <Content Include="images\ok.png" />
+    <Content Include="images\PageLog.ico" />
+    <Content Include="images\print_preview.png" />
+    <Content Include="images\reload.png" />
+    <Content Include="images\run.png" />
+    <Content Include="images\save.png" />
+    <Content Include="images\subnav_btn.gif" />
+    <Content Include="images\time.png" />
+    <Content Include="images\topnav_bg.gif" />
+    <Content Include="images\topnav_hover.gif" />
+    <Content Include="images\trash.png" />
+    <Content Include="images\unchecked.gif" />
+    <Content Include="images\user group.png" />
+    <Content Include="images\user.png" />
+    <Content Include="Index.html" />
+    <Content Include="Scripts\bootstrap-editable.js" />
+    <Content Include="Scripts\bootstrap-table-editable.js" />
+    <Content Include="Scripts\bootstrap-table-export.js" />
+    <Content Include="Scripts\bootstrap-table-group-by.js" />
+    <Content Include="Scripts\bootstrap-table.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.7.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.7.2.js" />
+    <Content Include="Scripts\jquery-1.7.2.min.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.ui.core.js" />
+    <Content Include="Scripts\jquery.ui.datepicker.js" />
+    <Content Include="Scripts\jquery.ui.widget.js" />
+    <Content Include="Scripts\tableExport.js" />
+    <Content Include="Select2\css\select2.css" />
+    <Content Include="Select2\css\select2.min.css" />
+    <Content Include="Select2\js\i18n\ar.js" />
+    <Content Include="Select2\js\i18n\az.js" />
+    <Content Include="Select2\js\i18n\bg.js" />
+    <Content Include="Select2\js\i18n\ca.js" />
+    <Content Include="Select2\js\i18n\cs.js" />
+    <Content Include="Select2\js\i18n\da.js" />
+    <Content Include="Select2\js\i18n\de.js" />
+    <Content Include="Select2\js\i18n\el.js" />
+    <Content Include="Select2\js\i18n\en.js" />
+    <Content Include="Select2\js\i18n\es.js" />
+    <Content Include="Select2\js\i18n\et.js" />
+    <Content Include="Select2\js\i18n\eu.js" />
+    <Content Include="Select2\js\i18n\fa.js" />
+    <Content Include="Select2\js\i18n\fi.js" />
+    <Content Include="Select2\js\i18n\fr.js" />
+    <Content Include="Select2\js\i18n\gl.js" />
+    <Content Include="Select2\js\i18n\he.js" />
+    <Content Include="Select2\js\i18n\hi.js" />
+    <Content Include="Select2\js\i18n\hr.js" />
+    <Content Include="Select2\js\i18n\hu.js" />
+    <Content Include="Select2\js\i18n\id.js" />
+    <Content Include="Select2\js\i18n\is.js" />
+    <Content Include="Select2\js\i18n\it.js" />
+    <Content Include="Select2\js\i18n\ja.js" />
+    <Content Include="Select2\js\i18n\km.js" />
+    <Content Include="Select2\js\i18n\ko.js" />
+    <Content Include="Select2\js\i18n\lt.js" />
+    <Content Include="Select2\js\i18n\lv.js" />
+    <Content Include="Select2\js\i18n\mk.js" />
+    <Content Include="Select2\js\i18n\ms.js" />
+    <Content Include="Select2\js\i18n\nb.js" />
+    <Content Include="Select2\js\i18n\nl.js" />
+    <Content Include="Select2\js\i18n\pl.js" />
+    <Content Include="Select2\js\i18n\pt-BR.js" />
+    <Content Include="Select2\js\i18n\pt.js" />
+    <Content Include="Select2\js\i18n\ro.js" />
+    <Content Include="Select2\js\i18n\ru.js" />
+    <Content Include="Select2\js\i18n\sk.js" />
+    <Content Include="Select2\js\i18n\sl.js" />
+    <Content Include="Select2\js\i18n\sr-Cyrl.js" />
+    <Content Include="Select2\js\i18n\sr.js" />
+    <Content Include="Select2\js\i18n\sv.js" />
+    <Content Include="Select2\js\i18n\th.js" />
+    <Content Include="Select2\js\i18n\tr.js" />
+    <Content Include="Select2\js\i18n\uk.js" />
+    <Content Include="Select2\js\i18n\vi.js" />
+    <Content Include="Select2\js\i18n\zh-CN.js" />
+    <Content Include="Select2\js\i18n\zh-TW.js" />
+    <Content Include="Select2\js\select2.full.js" />
+    <Content Include="Select2\js\select2.full.min.js" />
+    <Content Include="Select2\js\select2.js" />
+    <Content Include="Select2\js\select2.min.js" />
+    <Content Include="Style\bootstrap-editable.css" />
+    <Content Include="Style\bootstrap-table-group-by.css" />
+    <Content Include="Style\bootstrap-table.css" />
+    <Content Include="Style\bootstrap.min.css" />
+    <Content Include="Style\colorchange.css" />
+    <Content Include="Style\common.css" />
+    <Content Include="Style\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Style\global.css" />
+    <Content Include="Style\images\animated-overlay.gif" />
+    <Content Include="Style\images\ui-icons_444444_256x240.png" />
+    <Content Include="Style\images\ui-icons_555555_256x240.png" />
+    <Content Include="Style\images\ui-icons_777620_256x240.png" />
+    <Content Include="Style\images\ui-icons_777777_256x240.png" />
+    <Content Include="Style\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Style\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Style\jquery-ui-1.10.4.custom.css" />
+    <Content Include="Style\jquery-ui-old.css" />
+    <Content Include="Style\jquery-ui.css" />
+    <Content Include="Style\jquery.ui.all.css" />
+    <Content Include="Style\jquery.ui.base.css" />
+    <Content Include="Style\jquery.ui.core.css" />
+    <Content Include="Style\jquery.ui.datepicker.css" />
+    <Content Include="TextFile1.txt" />
+    <Content Include="TextFile2.txt" />
+    <Content Include="TextFile3.txt" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="WebUI\WebForm_Log.aspx" />
+    <Content Include="WebUI\TaskReport_8.js" />
+    <Content Include="WebUI\WebForm_ByModle.aspx" />
+    <Content Include="WebUI\WebForm_Create.aspx" />
+    <Content Include="WebUI\WebForm_HistoryReport.aspx" />
+    <Content Include="WebUI\WebForm_ShowGrid.aspx" />
+    <Content Include="WebUI\WebForm_TaskReport.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DAL\ConvertJson.cs" />
+    <Compile Include="DAL\DbHelperOleDb.cs" />
+    <Compile Include="DAL\SqlHelper.cs" />
+    <Compile Include="DataModel\select2.cs" />
+    <Compile Include="Data\GetBAYlbyWorkcell.ashx.cs">
+      <DependentUpon>GetBAYlbyWorkcell.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\GetData_ByID.ashx.cs">
+      <DependentUpon>GetData_ByID.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\GetData_ByModle.ashx.cs">
+      <DependentUpon>GetData_ByModle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\GetData_Log.ashx.cs">
+      <DependentUpon>GetData_Log.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\GetModelbyWorkcell.ashx.cs">
+      <DependentUpon>GetModelbyWorkcell.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\GetTaskReport.ashx.cs">
+      <DependentUpon>GetTaskReport.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\SaveTask.ashx.cs">
+      <DependentUpon>SaveTask.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\UpdateAction.ashx.cs">
+      <DependentUpon>UpdateAction.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\UpdateExpectedTime.ashx.cs">
+      <DependentUpon>UpdateExpectedTime.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebUI\WebForm_Log.aspx.cs">
+      <DependentUpon>WebForm_Log.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebUI\WebForm_Log.aspx.designer.cs">
+      <DependentUpon>WebForm_Log.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebUI\WebForm_ByModle.aspx.cs">
+      <DependentUpon>WebForm_ByModle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebUI\WebForm_ByModle.aspx.designer.cs">
+      <DependentUpon>WebForm_ByModle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebUI\WebForm_Create.aspx.cs">
+      <DependentUpon>WebForm_Create.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebUI\WebForm_Create.aspx.designer.cs">
+      <DependentUpon>WebForm_Create.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebUI\WebForm_HistoryReport.aspx.cs">
+      <DependentUpon>WebForm_HistoryReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebUI\WebForm_HistoryReport.aspx.designer.cs">
+      <DependentUpon>WebForm_HistoryReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebUI\WebForm_ShowGrid.aspx.cs">
+      <DependentUpon>WebForm_ShowGrid.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebUI\WebForm_ShowGrid.aspx.designer.cs">
+      <DependentUpon>WebForm_ShowGrid.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebUI\WebForm_TaskReport.aspx.cs">
+      <DependentUpon>WebForm_TaskReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebUI\WebForm_TaskReport.aspx.designer.cs">
+      <DependentUpon>WebForm_TaskReport.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\GetData_ByModle.ashx" />
+    <Content Include="Data\GetModelbyWorkcell.ashx" />
+    <Content Include="Data\GetBAYlbyWorkcell.ashx" />
+    <Content Include="Data\SaveTask.ashx" />
+    <Content Include="Data\GetTaskReport.ashx" />
+    <Content Include="Data\GetData_ByID.ashx" />
+    <Content Include="Data\UpdateExpectedTime.ashx" />
+    <Content Include="Data\UpdateAction.ashx" />
+    <Content Include="Data\GetData_Log.ashx" />
+    <None Include="fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Properties\PublishProfiles\ekittingstatus.pubxml" />
+    <None Include="Style\font-awesome\fonts\fontawesome-webfont.woff" />
+    <None Include="Style\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <None Include="Style\font-awesome\fonts\OpenSans-Bold.ttf" />
+    <None Include="Style\font-awesome\fonts\OpenSans-Regular.ttf" />
+    <None Include="Style\font-awesome\fonts\OpenSans-Semibold.ttf" />
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>61095</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
