@@ -21,9 +21,9 @@ namespace kittingStatus.jabil.web.Data
                 string name = context.Request["name"];
                 string value = context.Request["value"];
 
-                string sql = "update [T_Task]  set [Action]='" + value + "' ";
+                string sql = "update [EKS_T_Task]  set [Action]='" + value + "' ";
                 sql += string.Format(" where ID={0}", ID);
-                DAL.DbHelper.ExecuteSql(sql);   
+                new  DAL.DbHelper().Execute(sql);   
             }
             catch
             {

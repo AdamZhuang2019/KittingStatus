@@ -67,7 +67,7 @@ namespace kittingStatus.jabil.web
                 // 在提醒时间内 是否还有任务处于未配料状态 且钢网数量为0
                 System.Data.DataTable dt_task = new System.Data.DataTable();
                 string dataupdatesql = "select [ID],[Stencil],[Profile Board],[Model],[Tool Side],[From_Tool Side],[From_Model] from [T_Task] where Enble=1 and [StencilCount]=0 and  DateAdd('n', -1*[RemindPreTime], [ExpectedTime])<=now() and [Status]=0  and  [ExpectedTime]>=now()";
-                dt_task = DAL.DbHelper.ExecuteSql_Table(dataupdatesql);
+                dt_task = new DAL.DbHelper().QueryDataTable(dataupdatesql);
                 if (dt_task.Rows.Count == 0)
                 {
                     return;
@@ -76,7 +76,7 @@ namespace kittingStatus.jabil.web
                 // 获取所有的钢网型号
                 System.Data.DataTable dt_Model = new System.Data.DataTable();
                 string dt_Modelsql = "select distinct [Model] from [T_Task] where Enble=1 and [StencilCount]=0 and DateAdd('n', -1*[RemindPreTime], [ExpectedTime])<=now() and [Status]=0  and  [ExpectedTime]>=now()";
-                dt_Model = DAL.DbHelper.ExecuteSql_Table(dt_Modelsql);
+                dt_Model = new DAL.DbHelper().QueryDataTable(dt_Modelsql);
                 if (dt_Model.Rows.Count == 0)
                 {
                     return;
@@ -92,7 +92,7 @@ namespace kittingStatus.jabil.web
                 #region For
                 for (int i = 0; i < dt_Model.Rows.Count; i++)
                 {
-                    // 找到型号相匹配的钢网，并且通过钢网的工具ID 把相关的几个扩展属性都检索出来
+                    // 找到型号相匹配的钢网，并且通过钢网的工具ID 把相关的几个扩展属性都检索出来（客户ID，库位ID，板面类型（B/T面）,modelID）
                     string _Model = Convert.ToString(dt_Model.Rows[i][0]);
                     string cmdText_Part = @"select  M.ToolID,P.ProcessFieldName, M.ProcessFieldValue from dbo.T_Tools_Attribute " +
                                             "as M inner join dbo.T_ProcessField as P on M.ProcessFieldID=P.ProcessFieldID " +
@@ -203,7 +203,7 @@ namespace kittingStatus.jabil.web
                     if (Stencil_Slot_No.Length > 0 && _StencilCount != "0")// 如果分配了库位
                     {
                         string sql = "UPDATE [T_Task] set [Stencil]='" + Stencil_Slot_No + "',[Stencil_Models]='" + Stencil_Models + "',[Stencil_Detail]='" + _stencil_json + "',[StencilCount]=" + _StencilCount + " where [ID]=" + id;
-                        DAL.DbHelper.ExecuteSql(sql);
+                        new  DAL.DbHelper().Execute(sql);
                         AddLog("保存数据", "Stencil   ID:" + id.ToString(), sql);
                     }
                 }
@@ -261,7 +261,7 @@ namespace kittingStatus.jabil.web
             if (DateTime.Now.Hour == 23 && DateTime.Now.Minute > 55)
             {
                 string deletesql = "delete from [Tlog] where LogTime<= DateAdd('d',-3, now()) ";
-                int deleterow = DAL.DbHelper.ExecuteSql(deletesql);
+                int deleterow = new  DAL.DbHelper().Execute(deletesql);
                 AddLog("删除Log", "[Tlog]", deletesql);
             }
 
@@ -270,7 +270,7 @@ namespace kittingStatus.jabil.web
                 System.Data.DataTable DataUpdate = new System.Data.DataTable();
                 // status =0, 未配料
                 string dataupdatesql = "select [ID],[Stencil],[Profile Board],[Squeegee],[DEK_Pallet] from [T_Task] where Enble=1 and [Status]=0   and  [ExpectedTime]<now()";
-                DataUpdate = DAL.DbHelper.ExecuteSql_Table(dataupdatesql);              
+                DataUpdate = new DAL.DbHelper().QueryDataTable(dataupdatesql);              
                 for (int i = 0; i < DataUpdate.Rows.Count; i++)
                 {
                     string u_Status = "2";//无料
@@ -285,7 +285,7 @@ namespace kittingStatus.jabil.web
                         u_Status = "1";//料足
                     }
                     string u_sql = "UPDATE [T_Task] set [Status]=" + u_Status + " where [ID]=" + u_ID;
-                    int temprow = DAL.DbHelper.ExecuteSql(u_sql);
+                    int temprow = new  DAL.DbHelper().Execute(u_sql);
                     AddLog("判定状态", "ID:" + u_ID, u_sql);
                 }
             }
@@ -316,7 +316,7 @@ namespace kittingStatus.jabil.web
                 System.Data.DataTable dt_task = new System.Data.DataTable();
                 // 第一步查看当前任务某一工具所分配的数量是否为0，且当前任务状态为未分配，并且在提醒时间内(提醒时间是配置在bay 信息表里面的)
                 string dataupdatesql = "select * from [T_Task] where Enble=1 and [" + columnDeviceCount + "]=0 and  DateAdd('n', -1*[RemindPreTime], [ExpectedTime])<=now() and [Status]=0  and  [ExpectedTime]>=now()";
-                dt_task = DAL.DbHelper.ExecuteSql_Table(dataupdatesql);
+                dt_task = new DAL.DbHelper().QueryDataTable(dataupdatesql);
                 if (dt_task.Rows.Count == 0)
                 {
                     return;
@@ -329,13 +329,13 @@ namespace kittingStatus.jabil.web
                     if (_Share != "0")
                     {
                         string sql = "UPDATE [T_Task] set [" + columnDevice + "]='" + "OK" + "',[" + columnDevice_Detail + "]='" + "share" + "',[" + columnDeviceCount + "]=" + "1" + " where [ID]=" + Convert.ToString(dt_task.Rows[i]["ID"]);
-                        DAL.DbHelper.ExecuteSql(sql);
+                        new  DAL.DbHelper().Execute(sql);
                     }
                 }
 
                 #endregion
                 // 执行跳过步骤后 再一次判断是否有符合条件的任务
-                dt_task = DAL.DbHelper.ExecuteSql_Table(dataupdatesql);
+                dt_task = new DAL.DbHelper().QueryDataTable(dataupdatesql);
                 if (dt_task.Rows.Count == 0)
                 {
                     return;
@@ -344,7 +344,7 @@ namespace kittingStatus.jabil.web
                 // 查找去重后的型号信息
                 System.Data.DataTable dt_Model = new System.Data.DataTable();
                 string dt_Modelsql = "select distinct [Model] from [T_Task] where Enble=1 and [" + columnDeviceCount + "]=0 and DateAdd('n', -1*[RemindPreTime], [ExpectedTime])<=now() and [Status]=0  and  [ExpectedTime]>=now()";
-                dt_Model = DAL.DbHelper.ExecuteSql_Table(dt_Modelsql);
+                dt_Model = new DAL.DbHelper().QueryDataTable(dt_Modelsql);
                 if (dt_Model.Rows.Count == 0)
                 {
                     return;
@@ -451,7 +451,7 @@ namespace kittingStatus.jabil.web
                         AddLog("异常出错", columnDevice + "数据分析", ex.ToString());
                     }
                     string sql = "UPDATE [T_Task] set [" + columnDevice + "]='" + Slot_No + "',[" + columnDevice_Models + "]='" + Device_Models + "',[" + columnDevice_Detail + "]='" + json + "',[" + columnDeviceCount + "]=" + DeviceCount + " where [ID]=" + id;
-                    DAL.DbHelper.ExecuteSql(sql);
+                    new  DAL.DbHelper().Execute(sql);
                     AddLog("保存数据", columnDevice + "   ID:" + id.ToString(), sql);
 
                 }
@@ -464,6 +464,8 @@ namespace kittingStatus.jabil.web
 
         }
 
+
+        #region 帮助函数
         /// <summary>
         /// 根据把行数据集合转换为一个datatable
         /// </summary>
@@ -503,12 +505,13 @@ namespace kittingStatus.jabil.web
                 Log = StringToBinary(Log);
                 SQL = StringToBinary(SQL);
                 sql += string.Format("VALUES('{0}','{1}','{2}')", TitleName, Log, SQL);
-                DAL.DbHelper.ExecuteSql(sql);
+                new  DAL.DbHelper().Execute(sql);
             }
             catch
             {
             }
 
         }
+        #endregion
     }
 }

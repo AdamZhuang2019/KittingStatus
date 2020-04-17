@@ -18,7 +18,7 @@ namespace kittingStatus.jabil.web.Data
             string workcell = context.Request["workcell"]; 
             string bayName = context.Request["bayName"];
             System.Data.DataTable dt = new System.Data.DataTable();
-            dt = DAL.DbHelper.ExecuteSql_Table("select top 1 Model from [T_Bay] where Workcell='" + workcell + "' and BayName='" + bayName + "'");
+            dt = new DAL.DbHelper().QueryDataTable("select top 1 Model from [EKS_T_Bay] where Workcell='" + workcell + "' and BayName='" + bayName + "'");
 
             string Model_list = "";
             List<DataModel.select2> ModelObj = new List<DataModel.select2>();

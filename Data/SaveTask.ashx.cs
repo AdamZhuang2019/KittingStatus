@@ -53,14 +53,14 @@ namespace kittingStatus.jabil.web.Data
              }
 
              System.Data.DataTable dt = new System.Data.DataTable();
-             dt = DAL.DbHelper.ExecuteSql_Table("select top 1 * from [T_Bay] where Workcell='" + Workcell + "' and BayName='" + BayName + "'");
+             dt = new DAL.DbHelper().QueryDataTable("select top 1 * from [EKS_T_Bay] where Workcell='" + Workcell + "' and BayName='" + BayName + "'");
              if (dt.Rows.Count > 0)
              {
-                 string sql = "INSERT INTO [T_Task] ([Workcell], [BayName],[Model],[ExpectedTime],[RemindPreTime],[RemindEmail],[CreatebyUser],[DEK_Pallet_Share],[Squeegee_Share],[ProfileBoard_Share])";
+                 string sql = "INSERT INTO [EKS_T_Task] ([Workcell], [BayName],[Model],[ExpectedTime],[RemindPreTime],[RemindEmail],[CreatebyUser],[DEK_Pallet_Share],[Squeegee_Share],[ProfileBoard_Share])";
                  sql += string.Format("VALUES('{0}','{1}','{2}','{3}',{4},'{5}','{6}',{7},{8},{9})", Workcell, BayName, Model, ExpectedTime, Convert.ToString(dt.Rows[0]["RemindPreTime"]),
                      Convert.ToString(dt.Rows[0]["RemindEmail"]), context.Request.UserHostName + ";" + 
                      context.Request.UserHostAddress, Share_DEKPallet, ShareSqueegee, Share_ProfileBoard);
-                 DAL.DbHelper.ExecuteSql(sql);
+                 new  DAL.DbHelper().Execute(sql);
              }
              context.Response.Write("OK");
         }

@@ -21,15 +21,12 @@ namespace kittingStatus.jabil.web.WebUI
             if (!IsPostBack)
             {
                 System.Data.DataTable dt = new System.Data.DataTable();
-                dt = DAL.DbHelper.ExecuteSql_Table("select distinct Workcell from [T_Bay]");
+                dt = new DAL.DbHelper().QueryDataTable("select distinct Workcell from [EKS_T_Bay]");
                 if (dt.Rows.Count == 0)
                 {
                     return;
                 }
 
-
-             
-               
                 List<DataModel.select2> ToolYorNObj = new List<DataModel.select2>();
               
                     DataModel.select2 o_a1 = new DataModel.select2();

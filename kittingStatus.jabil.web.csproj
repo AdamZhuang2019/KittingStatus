@@ -237,7 +237,9 @@
     <Content Include="Style\jquery.ui.base.css" />
     <Content Include="Style\jquery.ui.core.css" />
     <Content Include="Style\jquery.ui.datepicker.css" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -254,6 +256,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\ConvertJson.cs" />
+    <Compile Include="DAL\CryptoHelper.cs" />
+    <Compile Include="DAL\DatabaseHelper.cs" />
     <Compile Include="DAL\DbHelperOleDb.cs" />
     <Compile Include="DAL\SqlHelper.cs" />
     <Compile Include="DataModel\select2.cs" />

@@ -21,7 +21,7 @@ namespace kittingStatus.jabil.web.Data
             System.Data.DataTable dt = new System.Data.DataTable();
             if (Tpye == "Stencil")
             {
-                dt = DAL.DbHelper.ExecuteSql_Table("select [Stencil_Detail] from [T_Task] where ID=" + ID);
+                dt = new DAL.DbHelper().QueryDataTable("select [Stencil_Detail] from [EKS_T_Task] where ID=" + ID);
                 if (dt.Rows.Count > 0)
                 {
                     context.Response.Write(Convert.ToString(dt.Rows[0][0]));
@@ -31,7 +31,7 @@ namespace kittingStatus.jabil.web.Data
             }
             if (Tpye == "ProfileBoard")
             {
-                dt = DAL.DbHelper.ExecuteSql_Table("select [Profile Board_Detail] from [T_Task] where ID=" + ID);
+                dt = new DAL.DbHelper().QueryDataTable("select [Profile Board_Detail] from [EKS_T_Task] where ID=" + ID);
                 context.Response.Write(Convert.ToString(dt.Rows[0][0]));
                 return;
             }
@@ -39,7 +39,7 @@ namespace kittingStatus.jabil.web.Data
 
             if (Tpye == "Squeegee")
             {
-                dt = DAL.DbHelper.ExecuteSql_Table("select [Squeegee_Detail] from [T_Task] where ID=" + ID);
+                dt = new DAL.DbHelper().QueryDataTable("select [Squeegee_Detail] from [EKS_T_Task] where ID=" + ID);
                 if (dt.Rows.Count > 0)
                 {
                     context.Response.Write(Convert.ToString(dt.Rows[0][0]));
@@ -49,7 +49,7 @@ namespace kittingStatus.jabil.web.Data
             }
             if (Tpye == "DEK_Pallet")
             {
-                dt = DAL.DbHelper.ExecuteSql_Table("select [DEK_Pallet_Detail] from [T_Task] where ID=" + ID);
+                dt = new DAL.DbHelper().QueryDataTable("select [DEK_Pallet_Detail] from [EKS_T_Task] where ID=" + ID);
                 context.Response.Write(Convert.ToString(dt.Rows[0][0]));
                 return;
             }

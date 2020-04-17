@@ -27,7 +27,7 @@ namespace kittingStatus.jabil.web.Data
         public string GetTableStr( )
         {
             System.Data.DataTable dt = new System.Data.DataTable();
-            dt = DAL.DbHelper.ExecuteSql_Table("select *  from [Tlog] order by [ID] desc ");
+            dt = new DAL.DbHelper().QueryDataTable("select *  from [EKS_Tlog] order by [ID] desc ");
             dt.TableName = "data";
 
             for (int i = 0; i < dt.Rows.Count; i++)

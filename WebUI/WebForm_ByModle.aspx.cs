@@ -16,7 +16,7 @@ namespace kittingStatus.jabil.web.WebUI
             if (!IsPostBack)
             {
                 System.Data.DataTable dt = new System.Data.DataTable();
-                dt = DAL.DbHelper.ExecuteSql_Table("select * from [T_Bay] where [Workcell]='Solaredge/Solaredge' and  [BayName]='Bay013X'");
+                dt = new DAL.DbHelper().QueryDataTable("select * from [EKS_T_Bay] where [Workcell]='Solaredge/Solaredge' and  [BayName]='Bay013X'");
                 if (dt.Rows.Count == 0)
                 {
                     return;

@@ -25,9 +25,9 @@ namespace kittingStatus.jabil.web.Data
         public string GetTableStr( )
         {
             System.Data.DataTable dt = new System.Data.DataTable();
-            dt = DAL.DbHelper.ExecuteSql_Table("select  [ID],[Workcell],[BayName],[Tool Side],[Model],[CreatedTime],[ExpectedTime],"+
+            dt = new DAL.DbHelper().QueryDataTable("select  [ID],[Workcell],[BayName],[Tool Side],[Model],[CreatedTime],[ExpectedTime],"+
                 "[Status],[Stencil],[DEK_Pallet],[Profile Board],[Squeegee],[StencilCount],[DEK_PalletCount],[Profile BoardCount],["+
-                "SqueegeeCount],[Action] from [T_Task] order by [ExpectedTime] desc ");
+                "SqueegeeCount],[Action] from [EKS_T_Task] order by [ExpectedTime] desc ");
             dt.TableName = "data";
             return ConvertJson.ToJson(dt);
         }

@@ -6,7 +6,7 @@
 <head id="Head1"  runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
  
-    <link rel="shortcut icon" href="../images/PageLog.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../images/PageLog.ico" type="image/x-icon"/>
     <title>ME</title>
     <link href="../Style/global.css" rel="stylesheet" type="text/css" />
     <link href="../Style/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -24,142 +24,146 @@
      var Workcell_list=eval(<%=Workcell_list%>);        
 
     
-      $(document).ready(function () {   
+        $(document).ready(function () {
+            //是否共享炉温检测
+            $("#Share_ProfileBoard").select2({
+                width: "400",
+                placeholder: "Select",
+                tags: false,
+                //allowClear: true,
+                multiple: "multiple",
+                maximumSelectionLength: 1,  //最多能够选择的个数
+                minimumResultsForSearch: Infinity,
+                data: YorN
+            })
 
 
-        $("#Share_ProfileBoard").select2({
-              width: "400",                                       
-              placeholder: "Select", 
-              tags: false,                                         
-              //allowClear: true,
-              multiple:"multiple",
-              maximumSelectionLength: 1,  //最多能够选择的个数
-              minimumResultsForSearch: Infinity,
-              data: YorN
-          })
+            $("#Share_DEKPallet").select2({
+                width: "400",
+                placeholder: "Select",
+                tags: false,
+                //allowClear: true,
+                multiple: "multiple",
+                maximumSelectionLength: 1,  //最多能够选择的个数
+                minimumResultsForSearch: Infinity,
+                data: YorN
+            })
 
-                             
-        $("#Share_DEKPallet").select2({    
-                                width: "400",                                       
-                                placeholder: "Select", 
-                                tags: false,                                         
+
+            $("#ShareSqueegee").select2({
+                width: "400",
+                placeholder: "Select",
+                tags: false,
+                //allowClear: true,
+                multiple: "multiple",
+                maximumSelectionLength: 1,  //最多能够选择的个数
+                minimumResultsForSearch: Infinity,
+                data: YorN
+            });
+
+
+            $("#Generatebtn").click(function () {
+                $('#ApproveModal').modal();
+            });
+
+
+            var dd = new Date();
+            dd.setMinutes(dd.getMinutes() + 15);
+
+            $('#ExpectedTime').datetimepicker({
+                format: 'yyyy-mm-dd hh:ii',
+                //language:  'fr',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 0,
+                minuteStep: 5,
+                forceParse: 0,
+                startDate: dd
+            });
+
+            //填充workcell 下拉选择器
+            $("#WorkCell").select2({
+                width: "400",
+                placeholder: "Select",
+                tags: false,
+                //allowClear: true,
+                multiple: "multiple",
+                maximumSelectionLength: 1,  //最多能够选择的个数
+                minimumResultsForSearch: Infinity,
+                data: Workcell_list
+            });
+
+            //workcell 选中事件
+            $("#WorkCell").on("change", function (e) {
+                var _workcell = $("#WorkCell option:selected").text();
+                if (_workcell.length > 0)
+                {
+                    $.ajax({
+                        url: "../Data/GetBAYlbyWorkcell.ashx?workcell=" + _workcell,
+                        contentType: 'application/json; charset=utf-8',
+                        timeout: 5000,
+                        //dataType: 'json',                                                                                                
+                        datatype: "html",
+                        success: function (data)
+                        {
+
+                            var BayName_list = eval(data);
+                            $("#BayName").html('');
+                            $("#BayName").select2({
+                                width: "400",
+                                placeholder: "Select",
+                                tags: false,
                                 //allowClear: true,
-                                multiple:"multiple",
+                                multiple: "multiple",
                                 maximumSelectionLength: 1,  //最多能够选择的个数
                                 minimumResultsForSearch: Infinity,
-                                data: YorN
-                                })
+                                data: BayName_list
+                            });
 
-                                                        
-        $("#ShareSqueegee").select2({    
-                                width: "400",                                       
-                                placeholder: "Select", 
-                                tags: false,                                         
-                                //allowClear: true,
-                                multiple:"multiple",
-                                maximumSelectionLength: 1,  //最多能够选择的个数
-                                minimumResultsForSearch: Infinity,
-                                data: YorN
-                                })
+                            // Bay选中事件
+                            $("#BayName").on("change", function (e) {
+                                var _workcell = $("#WorkCell option:selected").text();
+                                var _bayName = $("#BayName option:selected").text();
+                                $.ajax({
+                                    url: "../Data/GetModelbyWorkcell.ashx?workcell=" + _workcell + "&bayName=" + _bayName,
+                                    contentType: 'application/json; charset=utf-8',
+                                    timeout: 5000,
+                                    //dataType: 'json',                                                                                                
+                                    datatype: "html",
+                                    success: function (data) {
+                                        var Model_list = eval(data);
+                                        $("#Model").html('');
+                                        $("#Model").select2({
+                                            width: "400",
+                                            placeholder: "Select",
+                                            tags: false,
+                                            //allowClear: true,
+                                            multiple: "multiple",
+                                            maximumSelectionLength: 1,  //最多能够选择的个数
+                                            minimumResultsForSearch: Infinity,
+                                            data: Model_list
+                                        });
 
+                                    },
+                                    error: function (msg) {
+                                        alert("error:" + msg);
+                                    }
+                                }); //end ajax  
+                            });
 
+                        },
+                        error: function (msg) {
+                            alert("error:" + msg);
+                        }
+                    }); //end ajax   
 
-                                         $("#Generatebtn").click(function () {
-                                                                                    $('#ApproveModal').modal();
-                                                                                 });
+                }
 
-                                          var dd= new Date();
-                                          dd.setMinutes(dd.getMinutes()+15);
-                                          $('#ExpectedTime').datetimepicker({
-                                                                                format: 'yyyy-mm-dd hh:ii',
-                                                                                //language:  'fr',
-                                                                                weekStart: 1,
-                                                                                todayBtn:  1,
-		                                                                        autoclose: 1,
-		                                                                        todayHighlight: 1,
-		                                                                        startView: 2,
-		                                                                        minView: 0,
-                                                                                minuteStep:5,
-		                                                                        forceParse: 0,
-                                                                                startDate : dd 
-                                                                             });                                         
-                                          
-                                            $("#WorkCell").select2({    
-                                                                    width: "400",                                       
-                                                                    placeholder: "Select", 
-                                                                    tags: false,                                         
-                                                                   //allowClear: true,
-                                                                    multiple:"multiple",
-                                                                    maximumSelectionLength: 1,  //最多能够选择的个数
-                                                                    minimumResultsForSearch: Infinity,
-                                                                    data: Workcell_list
-                                                                    })
-
-                                      
-                                            $("#WorkCell").on("change", function (e) { 
-                                                                                        var _workcell=$("#WorkCell option:selected").text();
-                                                                                        if(_workcell.length>0)
-                                                                                        {
-                                                                                            $.ajax({
-                                                                                                    url: "../Data/GetBAYlbyWorkcell.ashx?workcell="+_workcell,
-                                                                                                    contentType: 'application/json; charset=utf-8',
-                                                                                                    timeout: 5000,
-                                                                                                    //dataType: 'json',                                                                                                
-                                                                                                    datatype: "html",          
-                                                                                                    success: function (data) {  
-                                                                                                                          
-                                                                                                                            var BayName_list=eval(data);  
-                                                                                                                            $("#BayName").html('');                                                                                                                                                                                                                                                
-                                                                                                                            $("#BayName").select2({    
-                                                                                                                                                    width: "400",                                       
-                                                                                                                                                    placeholder: "Select", 
-                                                                                                                                                    tags: false,                                         
-                                                                                                                                                    //allowClear: true,
-                                                                                                                                                    multiple:"multiple",
-                                                                                                                                                    maximumSelectionLength: 1,  //最多能够选择的个数
-                                                                                                                                                    minimumResultsForSearch: Infinity,
-                                                                                                                                                    data: BayName_list
-                                                                                                                                                    });  
-                                                                                                                            $("#BayName").on("change", function (e) { 
-                                                                                                                                                                    var _workcell=$("#WorkCell option:selected").text();
-                                                                                                                                                                    var _bayName=$("#BayName option:selected").text();
-                                                                                                                                                                    $.ajax({
-                                                                                                                                                                                url: "../Data/GetModelbyWorkcell.ashx?workcell="+_workcell+"&bayName="+_bayName,
-                                                                                                                                                                                contentType: 'application/json; charset=utf-8',
-                                                                                                                                                                                timeout: 5000,
-                                                                                                                                                                                //dataType: 'json',                                                                                                
-                                                                                                                                                                                datatype: "html",          
-                                                                                                                                                                                success: function (data) {  
-                                                                                                                                                                                  var Model_list=eval(data);  
-                                                                                                                                                                                  $("#Model").html('');                                                                                                                                                                                                                                                
-                                                                                                                                                                                  $("#Model").select2({    
-                                                                                                                                                                                                        width: "400",                                       
-                                                                                                                                                                                                        placeholder: "Select", 
-                                                                                                                                                                                                        tags: false,                                         
-                                                                                                                                                                                                        //allowClear: true,
-                                                                                                                                                                                                        multiple:"multiple",
-                                                                                                                                                                                                        maximumSelectionLength: 1,  //最多能够选择的个数
-                                                                                                                                                                                                        minimumResultsForSearch: Infinity,
-                                                                                                                                                                                                        data: Model_list
-                                                                                                                                                                                                        }); 
-                                                                                                                                                                                 
-                                                                                                                                                                                },
-                                                                                                                                                                                error: function (msg) {
-                                                                                                                                                                                   alert("error:"+msg);
-                                                                                                                                                                                }
-                                                                                                                                                                                }); //end ajax  
-                                                                                                                                                                        });                                                                                                                                                                                                         
-                                                                                                        
-                                                                                                    },
-                                                                                                    error: function (msg) {
-                                                                                                        alert("error:"+msg);
-                                                                                                    }
-                                                                                                }); //end ajax   
-                                                                                          
-                                                                                          }
-                                                                                        
-                                                                                      });                                        
-                                      })
+            });
+        });
 
     function SaveData()
     {
@@ -243,7 +247,7 @@
             <a href="#" style="cursor: pointer; float: left">
                 <img src="../images/jabil_log.jpg" style="width: 179px; height: 48px; border: none"
                     alt="JABIL" />
-            </a><span id="appName" style=" color:Blue"><font>SMT Material and Tools Pull System <font size="3">v1.0</font></span>
+            </a><span id="appName" style=" color:Blue"><font>SMT Material and Tools Pull System <font size="3">v1.0</font></font></span>
             <div style="clear: both">
             </div>
         </div>        
@@ -267,12 +271,6 @@
                                 <ul class="dropdown-menu">                   
                                     <li><a href="WebForm_ByModle.aspx">Report</a></li>
                                     <li><a href="WebForm_Log.aspx">Log Report</a></li>
-                                   
-                                   <%-- <li><a href="WebForm_HistoryReport.aspx">HistoryReport</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">..</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">...</a></li>--%>
                                 </ul>
                             </li>
                       </ul>
@@ -328,9 +326,9 @@
                            style="width: 400px;">
                           
                           
-                           </span><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                           <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                            </span>
-                            <input id="ExpectedTimeValue" class="form-control" size="16" type="text" value="">
+                            <input id="ExpectedTimeValue" class="form-control" size="16" type="text" value=""/>
                        </div>
                        <input type="hidden" id="dtp_input2" value="" /><br />
                    </td>
@@ -370,13 +368,13 @@
 
                 
 
-               <trstyle="height: 50px;">
+               <tr style="height: 50px;">
                    <td>
                     </td>
                    <td>
                      <input type="button" class="btn btn-success" id="Generatebtn" value="Generate"  />         
                    </td>
-               </tr>
+                   </tr>
            </table>           
        </div>
    </div>  
