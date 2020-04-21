@@ -7,6 +7,7 @@ using System.Web.SessionState;
 using System.Data;
 using kittingStatus.jabil.web.DAL;
 using System.Text;
+using kittingStatus.jabil.web.BLL;
 
 namespace kittingStatus.jabil.web
 {
@@ -49,7 +50,23 @@ namespace kittingStatus.jabil.web
             timer_RunProcess_Squeegee.AutoReset = true;
             timer_RunProcess_Squeegee.Enabled = true;
 
+            //
+            System.Timers.Timer timer_RunProcess_FreeTask = new System.Timers.Timer(_synchro * 1000 * 60); //一分钟运行一次
+            timer_RunProcess_FreeTask.Elapsed += Timer_RunProcess_FreeTask_Elapsed; ;
+            timer_RunProcess_FreeTask.AutoReset = true;
+            timer_RunProcess_FreeTask.Enabled = true;
 
+
+
+        }
+        /// <summary>
+        /// 释放任务
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Timer_RunProcess_FreeTask_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            TaskBll.FreeTask();
         }
 
         #region 定时器事件执行
@@ -66,7 +83,7 @@ namespace kittingStatus.jabil.web
 
                 // 在提醒时间内 是否还有任务处于未配料状态 且钢网数量为0
                 System.Data.DataTable dt_task = new System.Data.DataTable();
-                string dataupdatesql = "select [ID],[Stencil],[Profile Board],[Model],[Tool Side],[From_Tool Side],[From_Model] from [T_Task] where Enble=1 and [StencilCount]=0 and  DateAdd('n', -1*[RemindPreTime], [ExpectedTime])<=now() and [Status]=0  and  [ExpectedTime]>=now()";
+                string dataupdatesql = "select [ID],[Stencil],[Profile Board],[Model],[Tool Side],[From_Tool Side],[From_Model] from [T_Task] where Enble=1 and [StencilCount]=0 and  DateAdd('n', -1*[RemindPreTime], [ExpectedTime])<=getdate() and [Status]=0  and  [ExpectedTime]>=getdate()";
                 dt_task = new DAL.DbHelper().QueryDataTable(dataupdatesql);
                 if (dt_task.Rows.Count == 0)
                 {
@@ -75,7 +92,7 @@ namespace kittingStatus.jabil.web
 
                 // 获取所有的钢网型号
                 System.Data.DataTable dt_Model = new System.Data.DataTable();
-                string dt_Modelsql = "select distinct [Model] from [T_Task] where Enble=1 and [StencilCount]=0 and DateAdd('n', -1*[RemindPreTime], [ExpectedTime])<=now() and [Status]=0  and  [ExpectedTime]>=now()";
+                string dt_Modelsql = "select distinct [Model] from [T_Task] where Enble=1 and [StencilCount]=0 and DateAdd('n', -1*[RemindPreTime], [ExpectedTime])<=getdate() and [Status]=0  and  [ExpectedTime]>=getdate()";
                 dt_Model = new DAL.DbHelper().QueryDataTable(dt_Modelsql);
                 if (dt_Model.Rows.Count == 0)
                 {
@@ -260,7 +277,7 @@ namespace kittingStatus.jabil.web
             // 每天晚上11点55分删除三天之前的日志
             if (DateTime.Now.Hour == 23 && DateTime.Now.Minute > 55)
             {
-                string deletesql = "delete from [Tlog] where LogTime<= DateAdd('d',-3, now()) ";
+                string deletesql = "delete from [Tlog] where LogTime<= DateAdd('d',-3, getdate()) ";
                 int deleterow = new  DAL.DbHelper().Execute(deletesql);
                 AddLog("删除Log", "[Tlog]", deletesql);
             }
@@ -269,7 +286,7 @@ namespace kittingStatus.jabil.web
             {
                 System.Data.DataTable DataUpdate = new System.Data.DataTable();
                 // status =0, 未配料
-                string dataupdatesql = "select [ID],[Stencil],[Profile Board],[Squeegee],[DEK_Pallet] from [T_Task] where Enble=1 and [Status]=0   and  [ExpectedTime]<now()";
+                string dataupdatesql = "select [ID],[Stencil],[Profile Board],[Squeegee],[DEK_Pallet] from [T_Task] where Enble=1 and [Status]=0   and  [ExpectedTime]<getdate()";
                 DataUpdate = new DAL.DbHelper().QueryDataTable(dataupdatesql);              
                 for (int i = 0; i < DataUpdate.Rows.Count; i++)
                 {
@@ -315,7 +332,7 @@ namespace kittingStatus.jabil.web
 
                 System.Data.DataTable dt_task = new System.Data.DataTable();
                 // 第一步查看当前任务某一工具所分配的数量是否为0，且当前任务状态为未分配，并且在提醒时间内(提醒时间是配置在bay 信息表里面的)
-                string dataupdatesql = "select * from [T_Task] where Enble=1 and [" + columnDeviceCount + "]=0 and  DateAdd('n', -1*[RemindPreTime], [ExpectedTime])<=now() and [Status]=0  and  [ExpectedTime]>=now()";
+                string dataupdatesql = "select * from [T_Task] where Enble=1 and [" + columnDeviceCount + "]=0 and  DateAdd('n', -1*[RemindPreTime], [ExpectedTime])<=getdate() and [Status]=0  and  [ExpectedTime]>=getdate()";
                 dt_task = new DAL.DbHelper().QueryDataTable(dataupdatesql);
                 if (dt_task.Rows.Count == 0)
                 {
@@ -343,7 +360,7 @@ namespace kittingStatus.jabil.web
 
                 // 查找去重后的型号信息
                 System.Data.DataTable dt_Model = new System.Data.DataTable();
-                string dt_Modelsql = "select distinct [Model] from [T_Task] where Enble=1 and [" + columnDeviceCount + "]=0 and DateAdd('n', -1*[RemindPreTime], [ExpectedTime])<=now() and [Status]=0  and  [ExpectedTime]>=now()";
+                string dt_Modelsql = "select distinct [Model] from [T_Task] where Enble=1 and [" + columnDeviceCount + "]=0 and DateAdd('n', -1*[RemindPreTime], [ExpectedTime])<=getdate() and [Status]=0  and  [ExpectedTime]>=getdate()";
                 dt_Model = new DAL.DbHelper().QueryDataTable(dt_Modelsql);
                 if (dt_Model.Rows.Count == 0)
                 {

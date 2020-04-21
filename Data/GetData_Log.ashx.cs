@@ -11,7 +11,7 @@ namespace kittingStatus.jabil.web.Data
 {
    
     /// <summary>
-    /// Summary description for GetData_ByModle
+    /// Summary description for GetData_ByModleEKS_TError
     /// </summary>
     public class GetData_Log : IHttpHandler
     {

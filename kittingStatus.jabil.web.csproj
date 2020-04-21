@@ -45,6 +45,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -255,12 +259,16 @@
     <Content Include="WebUI\WebForm_TaskReport.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\ErrorBll.cs" />
+    <Compile Include="BLL\TaskBll.cs" />
     <Compile Include="DAL\ConvertJson.cs" />
     <Compile Include="DAL\CryptoHelper.cs" />
     <Compile Include="DAL\DatabaseHelper.cs" />
     <Compile Include="DAL\DbHelperOleDb.cs" />
     <Compile Include="DAL\SqlHelper.cs" />
+    <Compile Include="DataModel\CommModel.cs" />
     <Compile Include="DataModel\select2.cs" />
+    <Compile Include="DataModel\SerResult.cs" />
     <Compile Include="Data\GetBAYlbyWorkcell.ashx.cs">
       <DependentUpon>GetBAYlbyWorkcell.ashx</DependentUpon>
     </Compile>
@@ -278,6 +286,9 @@
     </Compile>
     <Compile Include="Data\GetTaskReport.ashx.cs">
       <DependentUpon>GetTaskReport.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\KittingServices.ashx.cs">
+      <DependentUpon>KittingServices.ashx</DependentUpon>
     </Compile>
     <Compile Include="Data\SaveTask.ashx.cs">
       <DependentUpon>SaveTask.ashx</DependentUpon>
@@ -345,7 +356,9 @@
     <Content Include="Data\UpdateExpectedTime.ashx" />
     <Content Include="Data\UpdateAction.ashx" />
     <Content Include="Data\GetData_Log.ashx" />
+    <Content Include="Data\KittingServices.ashx" />
     <None Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\ekittingstatus.pubxml" />
     <None Include="Style\font-awesome\fonts\fontawesome-webfont.woff" />
     <None Include="Style\font-awesome\fonts\fontawesome-webfont.woff2" />

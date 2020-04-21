@@ -137,6 +137,22 @@ $('#tb').bootstrapTable({
                             }
                         }
                     },
+                    {
+                        field: 'Feeder',
+                        title: 'Feeder',
+                        align: 'center',
+                        valign: 'middle',
+                        formatter: Formatter_Feeder,
+                        sortable: true
+                    },
+                    {
+                        field: 'FeederCar',
+                        title: 'FeederCar',
+                        align: 'center',
+                        valign: 'middle',
+                        formatter: Formatter_FeederCar,
+                        sortable: true
+                    },
 
                     {
                         field: 'Stencil',
@@ -212,13 +228,14 @@ $('#tb').bootstrapTable({
                         title: 'Action',
                         align: 'center',
                         valign: 'middle',
-                        // formatter: Formatter_Action,                   
+                        formatter: Formatter_Action,                   
                         sortable: true
                     }
                     ],
 
     onDblClickCell: function (field, value, row, $element) {
-        if ("Action" == field) {
+        if ("Action" == field)
+        {
 
             if (row["Status"] == "2" && value=="") {
                 value_action = value, row_action = row; cell_Action = $element;
@@ -289,40 +306,79 @@ InitSubTable = function (index, row, $detail) {
     });
 };
 //sub
-var value_action, row_action, cell_Action ;
-function UpdataData() {
-    var ob = cell_Action.parent();
-    if (ob != null) {     
-        $("#tb").bootstrapTable('updateCell', {
-            index: ob.attr("data-index"),
-            field: 'Action',
-            value: $('#ActionText').val()
-        });
+var value_action, row_action, cell_Action;
 
-        $.ajax({
-            url: '../Data/UpdateAction.ashx?ID=' + row_action["ID"] + '&name=' + 'Action' + '&value=' + $('#ActionText').val(),
-            type: 'POST'
+function UpdataData() {
+    debugger;
+    var taskid = $('#StencilTaskID').val();
+    var Stencil = $('#StencilSlotsNo').val();
+    if (Stencil == "") {
+        alert("please select Stencil Slots first")
+        return;
+    }
+
+    $.ajax({
+        data: { ServiceKey: 'UpdataStencil', TaskID: taskid, Stencil: Stencil },
+            url: '../Data/KittingServices.ashx',
+            type: 'POST',
+            success: function (data) {
+                var result = JSON.parse(data);
+                alert(result.msg);
+                $('#tb').bootstrapTable('refresh');
+            }
         });
       
-    }
-   
+    
 }
-//function ShowEditAtion() {
 
-//    $('#ActionText').val(value_action);
-//    $('#EditAction').modal('show');
-//}
 
-//function Formatter_Action(value, row, index) {
-//   
-//   
-//    if (value == "") {
-//        return '<a href="#" ActionValue="'++'" onclick="ShowEditAtion();">' + 'Edit' + '</a>';
-//    }
-//    else {
-//        return '<a href="#"  onclick="ShowEditAtion();">' + value + '</a>';
-//    }
-//}
+function UpdataFeederCard() {
+
+    var taskid=$('#FeederCar_TaskID').val();
+    var feederCard = $('#FeederCar').val();
+    if (feederCard == "")
+    {
+        alert("please scan feeder car first")
+        return;
+    }
+    $.ajax(
+        {
+            data: { ServiceKey: 'UpdataFeederCard', TaskID: taskid, FeederCar: feederCard },
+            url: '../Data/KittingServices.ashx',
+            type: 'POST',
+            success: function (data) {
+                var result = JSON.parse(data);
+                alert(result.msg);
+                $('#tb').bootstrapTable('refresh');
+            }
+        });
+}
+
+
+
+
+//显示编辑框
+function ShowEditAtion(row) {
+    if (row)
+    {
+        $('#StencilTaskID').val(row);
+        $('#EditAction').modal('show');
+    }
+}
+
+//显示扫描框value_action = value, row_action = row; cell_Action = $element;
+function ShowScanAtion(row) {
+    if (row)
+    {
+        $('#FeederCar_TaskID').val(row);
+        $('#ScanAction').modal('show');
+    }
+}
+
+function Formatter_Action(value, row, index)
+{
+    return '<a href="#" onclick="ShowScanAtion(' + row["ID"] + ');">' + 'Scan' + '</a> <a href="#"  onclick="ShowEditAtion(' + row["ID"] + ');">' + 'Edit' + '</a>';
+}
 
 
 function Formatter_Squeegee(value, row, index) {
@@ -371,8 +427,28 @@ function Formatter_ProfileBoard(value, row, index) {
     return '<a href="#"  onclick="ShowGrid_ProfileBoard(' + row['ID'] + ');">' + value + '<span class="badge pull-right" style="background-color:#6faf6f;">' + row['Profile BoardCount'] + '</span></a>';
    
                                                // return '<a href="#">' + value + '<span class="badge pull-right" style="background-color:#55a9f1;">' + row['Profile BoardCount'] + '</span></a>';
-                                                }
-                                                function Formatter_Status(value, row, index) {
+}
+function Formatter_FeederCar(value, row, index) {
+
+    if (row['FeederCar'] == '') {
+        return '';
+    }
+
+    return   'OK';
+}
+
+function Formatter_Feeder(value, row, index) {
+
+    if (row['Feeder'] == '') {
+        return '';
+    }
+
+    return 'OK';
+}
+
+// 3 警告，2：过期 1：完成 注意跟数据库的status 状态有点不一致，多了个3的状态对应警告
+//当即将生产前15分钟内还未配料的任务状态为红色，15分钟以前的状态为黄色
+function Formatter_Status(value, row, index) {
                                                     if (value == "0") {
                                                         return '<i class="fa fa-lightbulb-o fa-2x"></i>';
                                                     }
@@ -381,6 +457,9 @@ function Formatter_ProfileBoard(value, row, index) {
                                                     }
                                                     if (value == "2") {
                                                         return '<div style="color:Red;"> <i class="fa fa-lightbulb-o fa-2x"></i></div>';
+                                                    }
+                                                    if (value == "3") {
+                                                        return '<div style="color:yellow;"> <i class="fa fa-lightbulb-o fa-2x"></i></div>';
                                                     }
                                                 }
 
