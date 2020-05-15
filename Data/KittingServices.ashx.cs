@@ -66,6 +66,9 @@ namespace kittingStatus.jabil.web.Data
             string taskid= context.Request["TaskID"];
             string feedercard = context.Request["FeederCar"];
 
+            feedercard = feedercard.TrimEnd(';');
+            feedercard = $"{feedercard};";
+
             var result= TaskBll.UpdataFeederCard(taskid, feedercard);
             Task.Factory.StartNew(() =>
             {

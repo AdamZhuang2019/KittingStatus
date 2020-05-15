@@ -1,4 +1,5 @@
-﻿using System;
+﻿using kittingStatus.jabil.web.BLL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,7 @@ namespace kittingStatus.jabil.web.WebUI
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            BulidPlanBll.ExecuteBuildPlanData2Task();
         }
     }
 }

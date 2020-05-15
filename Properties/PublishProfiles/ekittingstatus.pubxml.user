@@ -9,8 +9,20 @@
     <_PublishTargetUrl>D:\webpublish\ekittingstatus</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
+    <File Include="bin/fonts/glyphicons-halflings-regular.woff">
+      <publishTime>06/13/2017 14:04:41</publishTime>
+    </File>
     <File Include="bin/kittingStatus.jabil.web.dll">
-      <publishTime>07/05/2019 10:10:13</publishTime>
+      <publishTime>04/23/2020 22:07:43</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>11/09/2019 00:56:46</publishTime>
+    </File>
+    <File Include="bin/Style/font-awesome/fonts/fontawesome-webfont.woff">
+      <publishTime>06/15/2017 20:15:10</publishTime>
+    </File>
+    <File Include="bin/Style/font-awesome/fonts/fontawesome-webfont.woff2">
+      <publishTime>06/15/2017 20:15:10</publishTime>
     </File>
     <File Include="bootstrap-datetimepicker/bootstrap-datetimepicker.css">
       <publishTime>06/14/2017 20:48:39</publishTime>
@@ -180,6 +192,9 @@
     <File Include="Data/GetTaskReport.ashx">
       <publishTime>06/15/2017 10:22:02</publishTime>
     </File>
+    <File Include="Data/KittingServices.ashx">
+      <publishTime>04/20/2020 11:57:29</publishTime>
+    </File>
     <File Include="Data/SaveTask.ashx">
       <publishTime>06/14/2017 22:38:04</publishTime>
     </File>
@@ -190,7 +205,10 @@
       <publishTime>06/21/2017 11:47:33</publishTime>
     </File>
     <File Include="DB/db.accdb">
-      <publishTime>07/05/2019 09:45:10</publishTime>
+      <publishTime>04/13/2020 22:50:38</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff">
+      <publishTime>06/13/2017 14:04:41</publishTime>
     </File>
     <File Include="Global.asax">
       <publishTime>06/15/2017 16:08:36</publishTime>
@@ -281,6 +299,12 @@
     </File>
     <File Include="images/user.png">
       <publishTime>06/13/2017 13:58:38</publishTime>
+    </File>
+    <File Include="Index.html">
+      <publishTime>04/06/2020 15:20:38</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>04/20/2020 11:32:50</publishTime>
     </File>
     <File Include="Scripts/bootstrap-editable.js">
       <publishTime>06/21/2017 11:25:52</publishTime>
@@ -516,6 +540,12 @@
     <File Include="Style/font-awesome/css/font-awesome.min.css">
       <publishTime>06/15/2017 20:15:10</publishTime>
     </File>
+    <File Include="Style/font-awesome/fonts/fontawesome-webfont.woff">
+      <publishTime>06/15/2017 20:15:10</publishTime>
+    </File>
+    <File Include="Style/font-awesome/fonts/fontawesome-webfont.woff2">
+      <publishTime>06/15/2017 20:15:10</publishTime>
+    </File>
     <File Include="Style/global.css">
       <publishTime>06/14/2017 10:26:51</publishTime>
     </File>
@@ -571,16 +601,16 @@
       <publishTime>04/16/2018 21:06:37</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/05/2019 09:47:17</publishTime>
+      <publishTime>04/23/2020 09:02:47</publishTime>
     </File>
     <File Include="WebUI/TaskReport_8.js">
-      <publishTime>04/16/2018 20:06:52</publishTime>
+      <publishTime>04/23/2020 22:07:29</publishTime>
     </File>
     <File Include="WebUI/WebForm_ByModle.aspx">
       <publishTime>04/16/2018 19:33:16</publishTime>
     </File>
     <File Include="WebUI/WebForm_Create.aspx">
-      <publishTime>07/20/2018 09:17:23</publishTime>
+      <publishTime>04/09/2020 15:10:22</publishTime>
     </File>
     <File Include="WebUI/WebForm_HistoryReport.aspx">
       <publishTime>06/15/2017 09:37:35</publishTime>
@@ -592,7 +622,7 @@
       <publishTime>06/21/2017 11:28:26</publishTime>
     </File>
     <File Include="WebUI/WebForm_TaskReport.aspx">
-      <publishTime>07/20/2018 09:17:23</publishTime>
+      <publishTime>04/20/2020 21:47:12</publishTime>
     </File>
   </ItemGroup>
 </Project>

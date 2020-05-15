@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>kittingStatus.jabil.web</RootNamespace>
     <AssemblyName>kittingStatus.jabil.web</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -25,6 +25,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,28 +44,32 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="JabilCommon, Version=1.4.6.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\JabilCommon.1.4.6.3\lib\net46\JabilCommon.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bootstrap-datetimepicker\bootstrap-datetimepicker.css" />
@@ -259,6 +265,7 @@
     <Content Include="WebUI\WebForm_TaskReport.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\BulidPlanBll.cs" />
     <Compile Include="BLL\ErrorBll.cs" />
     <Compile Include="BLL\TaskBll.cs" />
     <Compile Include="DAL\ConvertJson.cs" />
@@ -266,6 +273,7 @@
     <Compile Include="DAL\DatabaseHelper.cs" />
     <Compile Include="DAL\DbHelperOleDb.cs" />
     <Compile Include="DAL\SqlHelper.cs" />
+    <Compile Include="DataModel\BuildPlanInfo.cs" />
     <Compile Include="DataModel\CommModel.cs" />
     <Compile Include="DataModel\select2.cs" />
     <Compile Include="DataModel\SerResult.cs" />
@@ -303,6 +311,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tool\JsonHelper.cs" />
     <Compile Include="WebUI\WebForm_Log.aspx.cs">
       <DependentUpon>WebForm_Log.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -357,11 +366,17 @@
     <Content Include="Data\UpdateAction.ashx" />
     <Content Include="Data\GetData_Log.ashx" />
     <Content Include="Data\KittingServices.ashx" />
-    <None Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\ekittingstatus.pubxml" />
-    <None Include="Style\font-awesome\fonts\fontawesome-webfont.woff" />
-    <None Include="Style\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Style\font-awesome\fonts\fontawesome-webfont.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Style\font-awesome\fonts\fontawesome-webfont.woff2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Style\font-awesome\fonts\OpenSans-Bold.ttf" />
     <None Include="Style\font-awesome\fonts\OpenSans-Regular.ttf" />
     <None Include="Style\font-awesome\fonts\OpenSans-Semibold.ttf" />

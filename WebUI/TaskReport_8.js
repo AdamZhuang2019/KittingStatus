@@ -150,7 +150,7 @@ $('#tb').bootstrapTable({
                         title: 'FeederCar',
                         align: 'center',
                         valign: 'middle',
-                        formatter: Formatter_FeederCar,
+                       // formatter: Formatter_FeederCar,
                         sortable: true
                     },
 
@@ -163,30 +163,30 @@ $('#tb').bootstrapTable({
                         sortable: true
                     },
                    
-                    {
-                        field: 'Profile Board',
-                        title: 'Profile Board',
-                        align: 'center',
-                        valign: 'middle',
-                        formatter: Formatter_ProfileBoard,
-                        sortable: true
-                    },
-                     {
-                         field: 'DEK_Pallet',
-                         title: 'DEK_Pallet',
-                         align: 'center',
-                         valign: 'middle',
-                         formatter: Formatter_DEK_Pallet,
-                         sortable: true
-                     },
-                        {
-                            field: 'Squeegee',
-                            title: 'Squeegee',
-                            align: 'center',
-                            valign: 'middle',
-                            formatter: Formatter_Squeegee,
-                            sortable: true
-                        },
+                    //{
+                    //    field: 'Profile Board',
+                    //    title: 'Profile Board',
+                    //    align: 'center',
+                    //    valign: 'middle',
+                    //    formatter: Formatter_ProfileBoard,
+                    //    sortable: true
+                    //},
+                    // {
+                    //     field: 'DEK_Pallet',
+                    //     title: 'DEK_Pallet',
+                    //     align: 'center',
+                    //     valign: 'middle',
+                    //     formatter: Formatter_DEK_Pallet,
+                    //     sortable: true
+                    // },
+                    //    {
+                    //        field: 'Squeegee',
+                    //        title: 'Squeegee',
+                    //        align: 'center',
+                    //        valign: 'middle',
+                    //        formatter: Formatter_Squeegee,
+                    //        sortable: true
+                    //    },
                     {
                         field: 'StencilCount',
                         title: 'StencilCount',
@@ -367,17 +367,29 @@ function ShowEditAtion(row) {
 }
 
 //显示扫描框value_action = value, row_action = row; cell_Action = $element;
-function ShowScanAtion(row) {
-    if (row)
+function ShowScanAtion(taskID,feederCar) {
+    if (taskID)
     {
-        $('#FeederCar_TaskID').val(row);
+        $('#FeederCar_TaskID').val(taskID);
+        $('#FeederCar').val(feederCar);
         $('#ScanAction').modal('show');
+
+        $('#ScanAction').on('shown.bs.modal', function () {
+            // 执行一些动作...
+            setFocus('FeederCar');
+        })
     }
 }
 
+function setFocus(id) {
+    var t = $("#" + id).val();
+    $("#" + id).val("").focus().val(t);
+}
+
+
 function Formatter_Action(value, row, index)
 {
-    return '<a href="#" onclick="ShowScanAtion(' + row["ID"] + ');">' + 'Scan' + '</a> <a href="#"  onclick="ShowEditAtion(' + row["ID"] + ');">' + 'Edit' + '</a>';
+    return '<a href="#" onclick="ShowScanAtion(\'' + row["ID"] + '\',\'' + row["FeederCar"] + '\');">' + 'Scan' + '</a> <a href="#"  onclick="ShowEditAtion(\'' + row["ID"] + '\');">' + 'Edit' + '</a>';
 }
 
 
