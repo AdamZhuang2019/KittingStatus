@@ -493,6 +493,8 @@ namespace kittingStatus.jabil.web.DAL
 				command.CommandText = sql;
 			}
 
+			command.CommandTimeout = 120000;
+
 			command.Connection = m_connection;
 
 			if (parameters == null)

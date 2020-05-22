@@ -14,51 +14,67 @@ namespace kittingStatus.jabil.web
     public class Global : System.Web.HttpApplication
     {
         int _synchro = 1;
-      
 
+        string pullchro = System.Configuration.ConfigurationManager.AppSettings["BuildPlanPullInterval"]; 
         protected void Application_Start(object sender, EventArgs e)
         {     
             //更新任务状态     
-            System.Timers.Timer timer_RunProcess = new System.Timers.Timer(1000 * 30); //1800000
+            System.Timers.Timer timer_RunProcess = new System.Timers.Timer(1000 * 30); //30秒
             timer_RunProcess.Elapsed += new System.Timers.ElapsedEventHandler(timer_RunProcess_Elapsed);
             timer_RunProcess.AutoReset = true;
             timer_RunProcess.Enabled = true;
 
 
             //更新钢网数据
-            System.Timers.Timer timer_RunProcess_Stencil = new System.Timers.Timer(_synchro * 1000 * 60); //1800000
+            System.Timers.Timer timer_RunProcess_Stencil = new System.Timers.Timer(_synchro * 1000 * 60); //1分钟
             timer_RunProcess_Stencil.Elapsed += new System.Timers.ElapsedEventHandler(timer_RunProcess_Elapsed_Stencil);
             timer_RunProcess_Stencil.AutoReset = true;
             timer_RunProcess_Stencil.Enabled = true;
 
             //更新炉温板数据
-            System.Timers.Timer timer_RunProcess_ProfileBoard = new System.Timers.Timer(_synchro * 1000 * 60); //1800000
+            System.Timers.Timer timer_RunProcess_ProfileBoard = new System.Timers.Timer(_synchro * 1000 * 60); //1分钟
             timer_RunProcess_ProfileBoard.Elapsed += new System.Timers.ElapsedEventHandler(timer_RunProcess_Elapsed_ProfileBoard);
             timer_RunProcess_ProfileBoard.AutoReset = true;
             timer_RunProcess_ProfileBoard.Enabled = true;
 
           
             //更新托盘数据
-            System.Timers.Timer timer_RunProcess_DEK_Pallet = new System.Timers.Timer(_synchro * 1000 * 60); //1800000
+            System.Timers.Timer timer_RunProcess_DEK_Pallet = new System.Timers.Timer(_synchro * 1000 * 60); //1分钟
             timer_RunProcess_DEK_Pallet.Elapsed += new System.Timers.ElapsedEventHandler(timer_RunProcess_Elapsed_DEK_Pallet);
             timer_RunProcess_DEK_Pallet.AutoReset = true;
             timer_RunProcess_DEK_Pallet.Enabled = true;
 
             //更新刮刀数据
-            System.Timers.Timer timer_RunProcess_Squeegee = new System.Timers.Timer(_synchro * 1000 * 60); //1800000
+            System.Timers.Timer timer_RunProcess_Squeegee = new System.Timers.Timer(_synchro * 1000 * 60); //1分钟
             timer_RunProcess_Squeegee.Elapsed += new System.Timers.ElapsedEventHandler(timer_RunProcess_Elapsed_Squeegee);
             timer_RunProcess_Squeegee.AutoReset = true;
             timer_RunProcess_Squeegee.Enabled = true;
 
             //
             System.Timers.Timer timer_RunProcess_FreeTask = new System.Timers.Timer(_synchro * 1000 * 60); //一分钟运行一次
-            timer_RunProcess_FreeTask.Elapsed += Timer_RunProcess_FreeTask_Elapsed; ;
+            timer_RunProcess_FreeTask.Elapsed += Timer_RunProcess_FreeTask_Elapsed; 
             timer_RunProcess_FreeTask.AutoReset = true;
             timer_RunProcess_FreeTask.Enabled = true;
 
 
+            int psynchro = 5;
+            if (!int.TryParse(pullchro, out psynchro))
+            {
+                psynchro = 5;
+            }
+
+            System.Timers.Timer timer_SynTask = new System.Timers.Timer(_synchro * 1000 * 60* psynchro); //5分钟运行一次
+            timer_SynTask.Elapsed += Timer_SynTask_Elapsed; 
+            timer_SynTask.AutoReset = true;
+            timer_SynTask.Enabled = true;
 
         }
+
+        private void Timer_SynTask_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            BulidPlanBll.ExecuteBuildPlanData2Task();
+        }
+
         /// <summary>
         /// 释放任务
         /// </summary>
@@ -66,7 +82,7 @@ namespace kittingStatus.jabil.web
         /// <param name="e"></param>
         private void Timer_RunProcess_FreeTask_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            TaskBll.FreeTask();
+           // TaskBll.FreeTask();
         }
 
         #region 定时器事件执行
@@ -106,7 +122,7 @@ namespace kittingStatus.jabil.web
 
                 DataTable DT_All = new DataTable();
 
-                #region For
+                #region For  找到所有的钢网信息
                 for (int i = 0; i < dt_Model.Rows.Count; i++)
                 {
                     // 找到型号相匹配的钢网，并且通过钢网的工具ID 把相关的几个扩展属性都检索出来（客户ID，库位ID，板面类型（B/T面）,modelID）
@@ -120,7 +136,7 @@ namespace kittingStatus.jabil.web
                     DataTable dt_Part = SqlHelper.GetDataTableOfRecord(cmdText_Part);
                     dt_Part.TableName = "Data";
 
-                    // 找到库存中的钢网
+                    // 找到库存中的钢网(工具类型，工具SN 工具状态)
                     string cmdText_Main = @"select M.ToolID,T.ToolTypeName, M.ToolSN,P.ProcessDesc as 'Status',M.LastUpdatedDate  from dbo.T_Tools as M  " +  //M.CustomerID,
                                            "inner join dbo.T_Process P on M.Status=P.ProcessID  inner join dbo.T_Type T on M.ToolTypeID=T.ToolTypeID " +
                                            "where P.ProcessDesc='Storage' and  M.ToolID in (select distinct ToolID  from  " +
@@ -178,6 +194,7 @@ namespace kittingStatus.jabil.web
                 }
                 #endregion
 
+                #region 进行钢网的分配
                 Random ra = new Random();
                 for (int i = 0; i < dt_task.Rows.Count; i++)
                 {
@@ -224,7 +241,7 @@ namespace kittingStatus.jabil.web
                         AddLog("保存数据", "Stencil   ID:" + id.ToString(), sql);
                     }
                 }
-
+                #endregion
             }
             catch (Exception ex)
             {
@@ -277,7 +294,7 @@ namespace kittingStatus.jabil.web
             // 每天晚上11点55分删除三天之前的日志
             if (DateTime.Now.Hour == 23 && DateTime.Now.Minute > 55)
             {
-                string deletesql = "delete from [Tlog] where LogTime<= DateAdd('d',-3, getdate()) ";
+                string deletesql = "delete from EKS_Tlog where LogTime<= DateAdd(d,-3, getdate())  ";
                 int deleterow = new  DAL.DbHelper().Execute(deletesql);
             }
 
@@ -285,7 +302,7 @@ namespace kittingStatus.jabil.web
             {
                 System.Data.DataTable DataUpdate = new System.Data.DataTable();
                 // status =0, 未配料
-                string dataupdatesql = "select [ID],[Stencil],[Profile Board],[Squeegee],[DEK_Pallet],[FeederCar],[Feeder] from [T_Task] where Enble=1 and [Status]=0   and  [ExpectedTime]<getdate()";
+                string dataupdatesql = "select [ID],[Stencil],[Profile Board],[Squeegee],[DEK_Pallet],[FeederCar],[Feeder] from [EKS_T_Task] where Enble=1 and [Status]=0   and  [ExpectedTime]<getdate()";
                 DataUpdate = new DAL.DbHelper().QueryDataTable(dataupdatesql);
                 string u_Status = "2";//无料
                 string u_ID = string.Empty;
@@ -312,7 +329,7 @@ namespace kittingStatus.jabil.web
                     {
                         u_Status = "1";//料足
                     }
-                    string u_sql = "UPDATE [T_Task] set [Status]=" + u_Status + " where [ID]=" + u_ID;
+                    string u_sql = "UPDATE [EKS_T_Task] set [Status]=" + u_Status + " where [ID]=" + u_ID;
                     int temprow = new  DAL.DbHelper().Execute(u_sql);
                     AddLog("判定状态", "ID:" + u_ID, u_sql);
                 }

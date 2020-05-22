@@ -1,5 +1,9 @@
-﻿using System;
+﻿
+using kittingStatus.jabil.web.BLL;
+using kittingStatus.jabil.web.DAL;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -14,26 +18,47 @@ namespace kittingStatus.jabil.web.Data
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/plain";
-            //    url: '../Data/UpdateExpectedTime.ashx?ID=' + idIndex + '&name=' + field + '&value=' + fieldIndex,
+            string ID = context.Request["ID"];
+            string name = context.Request["name"];
+            string value = context.Request["value"];
             try
             {
-                string ID = context.Request["ID"];
-                string name = context.Request["name"];
-                string value = context.Request["value"];             
+               
 
-                string sql = "update [EKS_T_Task]  set [ExpectedTime]='" + value + "' ";
-                sql += string.Format(" where ID={0}", ID);
-                new  DAL.DbHelper().Execute(sql);   
+                DataRow dr=TaskBll.GetTaskInfo(ID);
+                if (dr == null || dr["Status"] == null)
+                {
+                    context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(new { status = -1, msg = "计划的TaskID非法！" }));
+                    return;
+                }
+
+                var status = dr["Status"] == DBNull.Value ? "-1" : dr["Status"].ToString();
+
+                if (status != "1") // 非配料状态
+                {
+                    context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject( new { status=-1,msg="状态异常，该计划为无料状态！" }));
+                    return;
+                }
+
+
+                ProcedureParameter[] para = new ProcedureParameter[] {
+                new ProcedureParameter("@CurBuildPlanID",int.Parse(dr["BuildPlanID"].ToString())),
+                new ProcedureParameter("@RealExpectedTime",value)
+
+                };
+
+
+                new DAL.DbHelper().Execute("P_UpdateExpectedTime",para,true);
+
+                context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(new { status = 0, msg = "操作完成！" }));
             }
-            catch
+            catch(Exception ex)
             {
-              
+                BLL.ErrorBll.LogError($"更新计划Taskid:[{ID}]的realExpectedTime异常", ex);
+                context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(new { status = -1, msg = "系统繁忙！" }));
+
             }
-            
-         
-        
-            context.Response.Write("OK");
-            
+              
         }
 
         public bool IsReusable

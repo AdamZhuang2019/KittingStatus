@@ -11,12 +11,12 @@ namespace kittingStatus.jabil.web.BLL
     {
         public static void LogError(Exception ex)
         {
-            InsertLog("异常错误", ex.ToString(), ErrorLevel.Error, ex.InnerException != null ? "" : ex.InnerException.Message);
+            InsertLog("异常错误", ex.ToString(), ErrorLevel.Error, ex.InnerException == null ? "" : ex.InnerException.Message);
         }
 
         public static void LogError(string title,Exception ex)
         {
-            InsertLog(title, ex.ToString(), ErrorLevel.Error, ex.InnerException!=null?"": ex.InnerException.Message);
+            InsertLog(title, ex.ToString(), ErrorLevel.Error, ex.InnerException==null?"": ex.InnerException.Message);
         }
 
         public static void LogError(string title, Exception ex,string remark)

@@ -2,6 +2,7 @@
 using kittingStatus.jabil.web.DataModel;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -107,6 +108,30 @@ namespace kittingStatus.jabil.web.BLL
             }
 
             return SerResult.Success();
+        }
+
+        /// <summary>
+        /// 获取任务
+        /// </summary>
+        /// <param name="taskId"></param>
+        /// <returns></returns>
+        public static DataRow GetTaskInfo(string taskId)
+        {
+
+            string sql = $@" select * from  [dbo].[EKS_T_Task]  where ID=@ID ";
+
+            ProcedureParameter[] para = new ProcedureParameter[] {
+                new ProcedureParameter("@ID",taskId),
+            };
+
+            try
+            {
+               return new DAL.DbHelper().QueryDataRow(sql, para);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

@@ -136,71 +136,115 @@ namespace kittingStatus.jabil.web.BLL
 
         }
 
+
+        public static bool UpdateBuildPlanCostTime()
+        {
+            string sql = $@" update  [dbo].[EKS_T_BulidPlanData] set CostTime=0;
+                             update [dbo].[EKS_T_BulidPlanData] set CostTime = Round(BuildPlan/UPH/0.9,2) where UPH <> 0 ";
+
+            try
+            {
+                return sqlser.Execute(sql, null) > 0;
+            }
+            catch (Exception ex)
+            {
+                ErrorBll.LogError("同步buildplan数据时，更新CostTime异常！", ex);
+                return false;
+            }
+        }
+
         /// <summary>
         /// bulidplan 数据转换为task
         /// </summary>
         public static void ExecuteBuildPlanData2Task()
         {
-            //抓取数据
-            List<BuildPlanInfo>list = GetSynBulidPlanData(DateTime.Now.AddDays(-3), DateTime.Now);
-            if (list.Count == 0)
-            {
-                return;
-            }
 
-            //
-            ClearBulidPlanData();
-
-            int allCount = list.Count;
-            int successCount = 0;
-            foreach (var it in list)
+            object locko = new object();
+            lock (locko)
             {
-                if (InsertBulidPlanData(it))
+                ErrorBll.LogInfo("开始同步BuildPlan数据", "开始同步BuildPlan数据");
+                //抓取数据
+                List<BuildPlanInfo> list = GetSynBulidPlanData(DateTime.Now.AddDays(-3), DateTime.Now);
+                if (list.Count == 0)
                 {
-                    successCount++;
+                    return;
                 }
-            }
 
-            ErrorBll.LogInfo("插入BulidPlan数据到本地数据库", $"总记录数:[{allCount}],成功数：[{successCount}]");
+                //
+                ClearBulidPlanData();
 
-            // 取出总的天数
-            var dates = GetDistinctBulidPlanDate();
-            foreach (var date in dates)
-            {
-                var types = GetDistinctBulidPlanShiftType(date);
-                foreach (var type in types)
+                int allCount = list.Count;
+                int successCount = 0;
+                foreach (var it in list)
                 {
-                    var workcells = GetDistinctBulidPlanWorkcell(date, type);
-                    foreach (var wc in workcells)
+                    if (InsertBulidPlanData(it))
                     {
-                        var bays = GetDistinctBulidPlanBays(date, type, wc);
-                        foreach (var bay in bays)
-                        {
-                            // 执行存储过程进行排班
-                            string sql = $@"";
+                        successCount++;
+                    }
+                }
 
-                            try
+                ErrorBll.LogInfo("插入BulidPlan数据到本地数据库", $"总记录数:[{allCount}],成功数：[{successCount}]");
+                //先计算CostTime
+                UpdateBuildPlanCostTime();
+
+                //先计算时间，分别计算出
+                var dates = GetDistinctBulidPlanDate();
+                foreach (var date in dates)
+                {
+                    var types = GetDistinctBulidPlanShiftType(date);
+                    foreach (var type in types)
+                    {
+                        var workcells = GetDistinctBulidPlanWorkcell(date, type);
+                        foreach (var wc in workcells)
+                        {
+                            var bays = GetDistinctBulidPlanBays(date, type, wc);
+                            foreach (var bay in bays)
                             {
-                                sqlser.Execute(sql, null, true);
-                            }
-                            catch (Exception ex)
-                            {
-                                ErrorBll.LogError("bulidplan 数据转换为task异常！", ex);
+                                // 执行存储过程进行排班
+                                string sql = $@"P_BuildPlanShiftType2Task";
+
+                                DAL.ProcedureParameter[] para = new DAL.ProcedureParameter[] {
+                                                            new DAL.ProcedureParameter("@shiftdate",date),
+                                                            new DAL.ProcedureParameter("@shift",type),
+                                                            new DAL.ProcedureParameter("@workcell",wc),
+                                                            new DAL.ProcedureParameter("@bay",bay),
+                                                            new DAL.ProcedureParameter("@Status",-1,SqlDbType.Int,8,ParameterDirection.Output),
+                                                            new DAL.ProcedureParameter("@Msg","",SqlDbType.VarChar,50,ParameterDirection.Output)
+                                                        };
+
+                                para[4].Direction = ParameterDirection.Output;
+                                para[5].Direction = ParameterDirection.Output;
+
+                                try
+                                {
+                                    sqlser.Execute(sql, para, true);
+
+                                    var result = para[4].Value == null ? -1 : para[4].Value.GetInt();
+                                    if (result == 0)
+                                    {
+                                        ErrorBll.LogInfo("计算单个生产计划的开始生产时间", $"[{date.ToString("yyyy-MM-dd")}] 班次：[{type}] workcell:[{wc}] bay:[{bay}] 当前班次的所有生产计划的具体生产时间成功！");
+                                    }
+                                    else
+                                    {
+                                        ErrorBll.LogInfo("计算单个生产计划的开始生产时间", $"[{date.ToString("yyyy-MM-dd")}] 班次：[{type}] workcell:[{wc}] bay:[{bay}] 当前班次的所有生产计划的具体生产时间失败,[{para[5].Value}]");
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    ErrorBll.LogError($"计算单个生产计划的开始生产时间 [{date.ToString("yyyy-MM-dd")}] 班次：[{type}] workcell:[{wc}] bay:[{bay}] 当前班次的所有生产计划的具体生产时间失败,[{para[5].Value}]", ex);
+                                }
                             }
                         }
+
                     }
-
-
-
                 }
+
+                //正式创建Task 
+                SynTask();
             }
-            // 取出天数中的班次
 
-            //取出某天数某班次中的workcell
 
-            //
 
-           
 
         }
 
@@ -344,6 +388,42 @@ namespace kittingStatus.jabil.web.BLL
                 ErrorBll.LogError("获取Bay异常！", ex);
                 return result;
 
+            }
+        }
+        /// <summary>
+        /// 同步任务
+        /// </summary>
+        public static void SynTask()
+        {
+            ErrorBll.LogInfo("开始同步生成Task任务", $"任务同步完成！");
+            // 执行存储过程进行排班
+            string sql = $@"P_Task_SYN";
+
+            DAL.ProcedureParameter[] para = new DAL.ProcedureParameter[] {
+                                                            new DAL.ProcedureParameter("@Status",0,SqlDbType.Int,8,ParameterDirection.Output),
+                                                            new DAL.ProcedureParameter("@Msg","",SqlDbType.VarChar,50,ParameterDirection.Output)
+                                                        };
+
+            para[0].Direction = ParameterDirection.Output;
+            para[1].Direction = ParameterDirection.Output;
+
+            try
+            {
+                sqlser.Execute(sql, para, true);
+
+                var result = para[0].Value == null ? -1 : para[0].Value.GetInt();
+                if (result == 0)
+                {
+                    ErrorBll.LogInfo("同步Task任务", $"任务同步完成！");
+                }
+                else
+                {
+                    ErrorBll.LogInfo("同步Task任务", $"任务同步失败！");
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorBll.LogError($"同步Task任务异常", ex);
             }
         }
 

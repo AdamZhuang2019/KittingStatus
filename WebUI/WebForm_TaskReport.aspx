@@ -14,7 +14,7 @@
     <link href="../bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
     <link href="../Style/bootstrap-editable.css" rel="stylesheet" type="text/css" />
     <link href="../Style/bootstrap-table-group-by.css" rel="stylesheet" type="text/css" />
-
+    <link href="../Select2/css/select2.css" rel="stylesheet" type="text/css" />
     <link href="../Style/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
     <style type="text/css">
@@ -26,6 +26,12 @@
             a.editable-click:hover {
                 text-decoration: none;
                 border-bottom: dashed 1px #0088cc;
+            }
+            .table{
+            word-break:break-all; word-wrap:break-all;
+        }
+            .haha{
+               padding-top:50px !important;
             }
     </style>
   
@@ -39,18 +45,97 @@
     <script src="../Scripts/bootstrap-editable.js" type="text/javascript"></script>
     <script src="../Scripts/bootstrap-table-group-by.js" type="text/javascript"></script>
     <script src="../Scripts/bootstrap-table-editable.js" type="text/javascript"></script>
-
+    <script src="../Select2/js/select2.full.js" type="text/javascript"></script>
 
     <!--加载功能JS-->
-    <script src="TaskReport_8.js" type="text/javascript"></script>
+    <script type="text/javascript">document.write('<script src="TaskReport_8.js?t=' + new Date().getTime() + '"><\/script>')</script>
+
     <script type="text/javascript">
 
         var int_clock = -1;
-        $(document).ready(function () {
+        $(document).ready(function ()
+        {
             initTable();
-            int_clock = self.setInterval("RefreshGetdata()", 60000);
+            int_clock = self.setInterval("RefreshGetdata()", 120000);
+
+            initWorkcellSelect();
+            initBaySelect();
+
+            $("#Searchbtn").click(function () {
+                SearchData();
+            })
 
         })
+
+        function initWorkcellSelect()
+        {
+            $.ajax({
+                data: { ServiceKey: 'GetWorkCellList'},
+                url: '../Data/KittingServices.ashx',
+                type: 'POST',
+                success: function (data) {
+                    var result = JSON.parse(data);
+
+                    $("#SelectWorkCell").select2({
+                        width: "300",
+                        placeholder: "Select",
+                        tags: false,
+                        allowClear: true,
+                        multiple: "multiple",
+                        maximumSelectionLength: 1,  //最多能够选择的个数
+                        minimumResultsForSearch: Infinity,
+                        data: result
+                    })
+
+                    $("#SelectWorkCell").on("change", function (e) {
+                        var _workcell = $("#SelectWorkCell option:selected").text();
+                        initBaySelect(_workcell);
+                       // SearchData();
+                        SearchData();
+                    });
+                }
+            });
+        }
+
+
+        function initBaySelect(workcell)
+        {
+            $.ajax({
+                data: { ServiceKey: 'GetBayList', WorkCell: workcell},
+                url: '../Data/KittingServices.ashx',
+                type: 'POST',
+                success: function (data) {
+                    var result = JSON.parse(data);
+
+                    $("#SelectBay").html('');
+
+                    $("#SelectBay").select2({
+                        width: "300",
+                        placeholder: "Select",
+                        tags: false,
+                        allowClear: true,
+                        multiple: "multiple",
+                        maximumSelectionLength: 1,  //最多能够选择的个数
+                        minimumResultsForSearch: Infinity,
+                        data: result
+                    })
+
+                    $("#SelectBay").on("change", function (e) {
+                        SearchData();
+                    });
+                }
+            });
+
+        }
+
+        function RefreshGetdata() {
+            $('#tb').bootstrapTable('refresh');
+        }
+
+        function SearchData() {
+            $('#tb').bootstrapTable('destroy');
+            initTable();
+        }
 
         function ShowGrid_DEK_Pallet(id) {
             var frameSrc = "WebForm_ShowGrid.aspx?ID=" + id + "&Tpye=DEK_Pallet";
@@ -74,9 +159,6 @@
              var frameSrc = "WebForm_ShowGrid.aspx?ID=" + id + "&Tpye=ProfileBoard";
              $("#iframe_ProfileBoard").attr("src", frameSrc);
              $('#GridModal_ProfileBoard').modal();
-         }
-         function RefreshGetdata() {
-             $('#tb').bootstrapTable('refresh');
          }
     </script>
 </head>
@@ -124,7 +206,18 @@
         <%-- 菜单 End--%>
 
     </div>   
- 
+         
+         
+        <div class=" search" style="display:inline-block;margin-left: 20px;">
+             WorkCell:<select id="SelectWorkCell"  style="margin-left: 10px; " >   
+        </select> 
+         Bay:<select id="SelectBay"  style="margin-left: 10px; " >   
+        </select> 
+            keyworld:<input id="KeyWork" type="text" style="margin-left:10px;" />
+           <input type="button" class="btn-info btn-sm" id="Searchbtn" value="查询" style="margin-left: 25px;" /> 
+
+        </div>
+
     <form id="form1" runat="server" class="form-horizontal" role="form">   
       <div class="form-group">
           <div class="col-sm-12">

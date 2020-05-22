@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using kittingStatus.jabil.web.DataModel;
 using kittingStatus.jabil.web.BLL;
 using System.Threading.Tasks;
+using System.Data;
+using System.Web.Script.Serialization;
 
 namespace kittingStatus.jabil.web.Data
 {
@@ -33,6 +35,10 @@ namespace kittingStatus.jabil.web.Data
                         UpdataFeederCard(context); break;
                     case "UpdataStencil":
                         UpdataStencil(context); break;
+                    case "GetWorkCellList":
+                        GetWorkcellList(context); break;
+                    case "GetBayList":
+                        GetBayList(context);break;
                     default:
                         {
                             context.Response.Write(JsonConvert.SerializeObject(SerResult.Success()));
@@ -77,6 +83,56 @@ namespace kittingStatus.jabil.web.Data
             );
            
             context.Response.Write(JsonConvert.SerializeObject(result));
+        }
+
+
+        public void GetWorkcellList(HttpContext context)
+        {
+            DataTable dt= WorkCellBll.GetWorkcellList();
+            List<object> ModelObj = new List<object>();
+
+            if (dt != null && dt.Rows.Count != 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {  
+                    ModelObj.Add( 
+                        new 
+                        { 
+                            id=dr["Workcell"].ToString(),
+                            text= dr["Workcell"].ToString()
+                        }
+
+                        );
+                }
+               
+            }
+
+            context.Response.Write(JsonConvert.SerializeObject(ModelObj));
+        }
+
+        public void GetBayList(HttpContext context)
+        {
+            string workcell = context.Request["WorkCell"];
+            DataTable dt = WorkCellBll.GetBayList(workcell);
+            List<object> ModelObj = new List<object>();
+
+            if (dt != null && dt.Rows.Count != 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    ModelObj.Add(
+                        new
+                        {
+                            id = dr["BayName"].ToString(),
+                            text = dr["BayName"].ToString()
+                        }
+
+                        );
+                }
+
+            }
+
+            context.Response.Write(JsonConvert.SerializeObject(ModelObj));
         }
 
         public bool IsReusable
