@@ -164,7 +164,7 @@ namespace kittingStatus.jabil.web.BLL
             {
                 ErrorBll.LogInfo("开始同步BuildPlan数据", "开始同步BuildPlan数据");
                 //抓取数据
-                List<BuildPlanInfo> list = GetSynBulidPlanData(DateTime.Now.AddDays(-3), DateTime.Now);
+                List<BuildPlanInfo> list = GetSynBulidPlanData(DateTime.Now.AddDays(-3).Date, DateTime.Now.AddDays(1).Date);
                 if (list.Count == 0)
                 {
                     return;
