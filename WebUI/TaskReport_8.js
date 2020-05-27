@@ -66,6 +66,13 @@ function initTable() {
                 sortable: true
             },
             {
+                field: 'Tool Side',
+                title: 'Tool Side',
+                align: 'center',
+                valign: 'middle',
+                sortable: true
+            },
+            {
                 field: 'Model',
                 title: 'Model',
                 align: 'center',
@@ -140,23 +147,24 @@ function initTable() {
                     if (currentdate == "1900-01-01 0:0") {
                         return "empty";
                     }
+
                     return currentdate;
                 },
                 editable: {
                     type: 'text',  //编辑框的类型。支持text|textarea|select|date|checklist等
+                    savenochange: true,
                     //type: "select",              //编辑框的类型。支持text|textarea|select|date|checklist等
                     //source: [{ value: 1, text: "开发部" }, { value: 2, text: "销售部" }, { value: 3, text: "行政部" }],
-                    title: 'RealExpectedTime，格式：1900-01-01 0:0',
+                    title: '格式：1900-01-01 0:0 ， 直接提交默认为当前时间',
                     disabled: false,             //是否禁用编辑
                     //emptytext: "空文本",          //空值的默认文本
                     mode: "popup",              //编辑框的模式：支持popup和inline两种模式，默认是popup
-                    validate: function (v) {
+                    validate: function (v) { }
+                    // 填写了这个如果不实现display 则会影响到显示值为empty
+                    //display: function (v, r) {
+                    //    $(this).html(v);
+                    //},
 
-                        //if (strDateTime(v) == false) {
-                        //    return '无效日期时间(日期格式错误或小于了当前时间)';
-                        //}
-                        //if (!v) return 'RealExpectedTime 不能为空';
-                    }
                 }
             },
 
@@ -293,9 +301,18 @@ function initTable() {
             return true;
         },
         onEditableSave: function (field, row, oldValue, $el) {
-            debugger;
             var idIndex = row['ID'];
+
             var fieldIndex = row[field];
+            if (field == "RealExpectedTime")
+            {
+                if (fieldIndex != undefined && fieldIndex == "empty")
+                {
+                    //
+                    fieldIndex = new Date().Format("yyyy-MM-dd HH:mm:ss");
+                }
+            }
+            
           //  if (row['Status'] == "0") {
                 $.ajax({
                     url: '../Data/UpdateExpectedTime.ashx?ID=' + idIndex + '&name=' + field + '&value=' + fieldIndex,
@@ -328,7 +345,7 @@ function initTable() {
     $('#tb').bootstrapTable('hideColumn', 'DEK_PalletCount');
     $('#tb').bootstrapTable('hideColumn', 'Profile BoardCount');
     $('#tb').bootstrapTable('hideColumn', 'SqueegeeCount');
-    $('#tb').bootstrapTable('hideColumn', 'Tool Side');
+    //$('#tb').bootstrapTable('hideColumn', 'Tool Side');
 
     $('#tb').bootstrapTable('hideColumn', 'shiftEndTime');
     $('#tb').bootstrapTable('hideColumn', 'ShiftStartTime');
@@ -545,6 +562,26 @@ function Formatter_Status(value, row, index) {
     }
 }
 
-
+// 对Date的扩展，将 Date 转化为指定格式的String
+// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
+// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
+// 例子： 
+// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
+// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
+Date.prototype.Format = function (fmt) {
+    var o = {
+        "M+": this.getMonth() + 1, //月份 
+        "d+": this.getDate(), //日 
+        "H+": this.getHours(), //小时 
+        "m+": this.getMinutes(), //分 
+        "s+": this.getSeconds(), //秒 
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+        "S": this.getMilliseconds() //毫秒 
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
 
 
